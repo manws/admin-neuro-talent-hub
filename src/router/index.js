@@ -58,12 +58,6 @@ export const constantRoutes = [
         },
     },
     {
-        path: "/project",
-        name: "project",
-        component: () => import("@/views/project/index"),
-        hidden: true,
-    },
-    {
         path: "/auth-redirect",
         component: () => import("@/views/login/auth-redirect"),
         hidden: true,
@@ -156,20 +150,6 @@ export const constantRoutes = [
             },
         ],
     },
-    {
-        path: "/crf-history",
-        component: Layout,
-        hidden: true,
-        children: [
-            {
-                path: "index/:formId/:recordId",
-                component: () => import("@/views/crf-history/index"),
-                name: "crf-history",
-                meta: { title: "查看历史", icon: "", noCache: false },
-            },
-        ],
-    },
-
 ]
 
 /**

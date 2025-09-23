@@ -18,8 +18,8 @@ import Cookies from "js-cookie"
 import i18n from "./lang"
 
 import ElementUI from "element-ui"
-import './theme/index.css'
-// import "element-ui/lib/theme-chalk/index.css"
+// import './theme/index.css'
+import "element-ui/lib/theme-chalk/index.css"
 
 import "./icons"
 import "./components"

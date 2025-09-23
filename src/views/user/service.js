@@ -19,12 +19,6 @@ export default {
             value: ''
         },
         {
-            fieldName: '中心',
-            fieldCode: 'siteControl',
-            align: 'center',
-            value: ''
-        },
-        {
             fieldName: '手机号',
             fieldCode: 'phone',
             align: 'center',
@@ -33,12 +27,6 @@ export default {
         {
             fieldName: '邮箱',
             fieldCode: 'email',
-            align: 'center',
-            value: ''
-        },
-        {
-            fieldName: '短信提醒',
-            fieldCode: 'isRemind',
             align: 'center',
             value: ''
         },

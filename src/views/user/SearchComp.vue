@@ -2,11 +2,6 @@
   <div class="flex-style-base fit-inut">
     <div class="search-comp-label" style="margin-left: 16px">账户</div>
     <el-input v-model="userCode" style="width: 180px; margin-left: 8px" placeholder="请输入" />
-    <div class="search-comp-label" style="margin-left: 16px">中心名称</div>
-    <el-select v-model="siteId" filterable placeholder="请选择" style="flex: 1">
-      <el-option v-for="(item, index) in siteList" :key="index" :label="item.siteName" :value="item.siteId"></el-option>
-    </el-select>
-
     <div class="search-comp-label group-search" style="margin-left: 16px">角色名称</div>
     <el-select v-model="usergroupId" class="group-search" placeholder="请选择" style="flex: 1" filterable clearable>
       <el-option v-for="(item, index) in usergroupList" :key="index" :label="item.usergroupName"
@@ -23,10 +18,6 @@
 <script>
 export default {
   props: {
-    siteList: {
-      type: Array,
-      default: () => [],
-    },
     usergroupList: {
       type: Array,
       default: () => [],
@@ -34,7 +25,6 @@ export default {
   },
   data() {
     return {
-      siteId: "",
       usergroupId: "",
       userCode: "",
     };
@@ -42,12 +32,10 @@ export default {
   computed: {},
   methods: {
     reset() {
-      this.siteId = "";
       this.usergroupId = "";
       this.userCode = "";
       let result = {
         userCode: "",
-        siteId: this.siteId,
         usergroupId: this.usergroupId,
       };
       this.$emit("search", result);
@@ -55,7 +43,6 @@ export default {
     search() {
       let result = {
         userCode: this.userCode,
-        siteId: this.siteId,
         usergroupId: this.usergroupId,
       };
 

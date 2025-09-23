@@ -5,11 +5,7 @@
 
     <breadcrumb v-if="$store.getters.settings.showBreadcrumb" id="breadcrumb-container" class="breadcrumb-container" />
 
-    <h4 class="title">
-      {{ $store.getters.settings.title }}（{{
-        $store.getters.project.projectCode
-      }}）
-    </h4>
+    <h4 class="title"></h4>
 
     <div class="right-menu flex-style-base">
       <template v-if="device !== 'mobile'">
@@ -30,7 +26,7 @@
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper flex-style-base">
           <img :src="headPortrait" class="user-avatar" />
-          <span style="color: #ffffff; font-size: 14px; margin-left: 8px">{{
+          <span style="font-size: 14px; margin-left: 8px">{{
             $store.getters.user.userName
           }}</span>
         </div>
@@ -99,12 +95,10 @@ export default {
   height: var(--global-headerHeight);
   overflow: hidden;
   position: relative;
-  background: $jbPrimaryTextColor;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   align-items: center;
 
   .title {
-    color: #ffffff;
     flex: 1;
     font-size: 18px;
   }

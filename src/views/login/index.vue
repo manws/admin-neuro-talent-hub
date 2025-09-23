@@ -16,13 +16,13 @@
           <div class="login-text">用户登录</div>
           <el-input ref="userCode" v-model="userCode" class="input" placeholder="请输入账号" name="userCode" type="text"
             tabindex="1" autocomplete="on" @focus="userCodeFocus = true" @blur="userCodeFocus = false">
-            <icon-font slot="prefix" icon="user" :color="userCodeFocus ? 'rgba(0, 152, 108, 1)' : '#808695'" />
+            <icon-font slot="prefix" icon="user" :color="userCodeFocus ? 'rgba(64, 158, 255, 1)' : '#808695'" />
           </el-input>
 
           <el-input :key="passwordType" ref="userPwd" v-model="userPwd" class="input" :type="passwordType"
             placeholder="请输入密码" name="userPwd" tabindex="2" autocomplete="new-password" @focus="userPwdFocus = true"
             @blur="userPwdFocus = false" @keyup.enter.native="handleLogin">
-            <icon-font slot="prefix" icon="lock" :color="userPwdFocus ? 'rgba(0, 152, 108, 1)' : '#808695'" />
+            <icon-font slot="prefix" icon="lock" :color="userPwdFocus ? 'rgba(64, 158, 255, 1)' : '#808695'" />
             <span slot="suffix" class="show-pwd" @click="showPwd">
               <icon-font color="#666666" :icon="passwordType === 'password' ? 'hide' : 'browse'" />
             </span>
@@ -101,7 +101,7 @@ export default {
   height: calc(100vh);
   width: calc(100vw);
   overflow: hidden;
-  background-image: url("../../assets/images/login-bg.png");
+  background-image: url("../../assets/images/login-bg.jpg");
   background-size: cover;
   background-position: center;
   justify-content: center;
@@ -149,7 +149,7 @@ export default {
   .system-text {
     font-family: PingFangSC-Medium;
     font-size: 44px;
-    color: $jbPrimaryColor;
+    color: #333333;
     letter-spacing: 0;
     font-weight: 500;
   }

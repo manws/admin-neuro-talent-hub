@@ -24,8 +24,6 @@
       <el-input v-model="email" class="input-style" placeholder="请输入" />
     </div>
 
-    <el-divider></el-divider>
-
     <div class="flex-style-base fit-inut" style="margin-top: 16px">
       <span class="red-dot">*</span>
       <div class="search-comp-label">角色名称</div>
@@ -33,28 +31,6 @@
         <el-option v-for="(item, index) in usergroupList" :key="index" :label="item.usergroupName"
           :value="item.usergroupId"></el-option>
       </el-select>
-    </div>
-
-    <div class="flex-style-base fit-inut" style="margin-top: 16px">
-      <span class="red-dot">*</span>
-      <div class="search-comp-label">负责中心</div>
-      <el-select v-model="siteIds" placeholder="请选择" multiple style="flex: 1">
-        <el-option-group v-for="group in options" :key="group.label" :label="group.label">
-          <el-option v-for="(item, index) in group.options" :key="index" :label="item.siteName"
-            :value="item.siteId"></el-option>
-        </el-option-group>
-      </el-select>
-    </div>
-
-
-
-    <div class="flex-style-base fit-inut" style="margin-top: 16px">
-      <span class="red-dot">*</span>
-      <div class="search-comp-label">短信提醒</div>
-      <el-radio-group v-model="isRemind" style="flex: 1">
-        <el-radio :label="1">是</el-radio>
-        <el-radio :label="0">否</el-radio>
-      </el-radio-group>
     </div>
 
     <div class="flex-style-base fit-inut" style="margin-top: 16px">
@@ -152,7 +128,6 @@ export default {
       if (!!row) {
         this.isNew = false;
         // 编辑
-        this.siteIds = row.siteControlId.split(",").map((item) => Number(item)); // todo something
         this.userCode = row.userCode;
         this.usergroupId = row.usergroupId; // todo something
         this.userName = row.userName;
@@ -160,19 +135,15 @@ export default {
         this.email = row.email;
         this.enabled = row.enabled;
         this.userId = row.userId;
-        this.isRemind = row.isRemind;
       } else {
         this.isNew = true;
         // 新增
-        this.siteIds = [];
         this.userCode = "";
         this.usergroupId = "";
         this.userName = "";
         this.phone = "";
         this.email = "";
-        this.siteControl = "";
         this.enabled = 0;
-        this.isRemind = 0;
       }
     },
     funcZero(ar) {
@@ -235,31 +206,22 @@ export default {
         return;
       }
 
-      if (!this.usergroupId) {
-        this.$message({
-          message: "请选择角色",
-          type: "error",
-        });
-        return;
-      }
+      // if (!this.usergroupId) {
+      //   this.$message({
+      //     message: "请选择角色",
+      //     type: "error",
+      //   });
+      //   return;
+      // }
 
-      if (!this.siteIds || this.siteIds.length === 0) {
-        this.$message({
-          message: "请选择中心",
-          type: "error",
-        });
-        return;
-      }
 
       let param = {
-        siteControl: this.siteIds.join(","),
         userCode: this.userCode,
         usergroupId: this.usergroupId,
         userName: this.userName,
         phone: this.phone,
         email: this.email,
         enabled: this.enabled,
-        isRemind: this.isRemind,
       };
       this.loading = true;
       if (this.isNew) {

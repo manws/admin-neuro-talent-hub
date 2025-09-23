@@ -9,15 +9,15 @@ $yellow:#FEC171;
 $panGreen: #30B08F;
 
 // sidebar
-$menuText:#ffffff;
-$menuActiveText:#BFBFBF;
+$menuText:#bfcbd9;
+$menuActiveText:#409EFF;
 $subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
 
-$menuBg:#0bb584;
-$menuHover:#00986c;
+$menuBg:#304156;
+$menuHover:#263445;
 
-$subMenuBg:#04CD94;
-$subMenuHover:#00986c;
+$subMenuBg:#1f2d3d;
+$subMenuHover:#001528;
 
 $sideBarWidth: 210px;
 
@@ -25,13 +25,13 @@ $headerHeight: 56px;
 
 :root {
     --global-headerHeight: 56px;
-    --global-primaryColor: #5dc998;
+    --global-primaryColor: #409EFF;
 }
 
-$jbPrimaryColor: #00986c;
-$jbPrimaryBtnBgColor: rgba(0, 152, 108, 0.8);
-$jbSubPrimaryColor: #0bb584;
-$jbPrimaryTextColor: #04CD94;
+$jbPrimaryColor: #409EFF;
+$jbPrimaryBtnBgColor: rgba(64, 158, 255, 0.8);
+$jbSubPrimaryColor: #409EFF;
+$jbPrimaryTextColor: #409EFF;
 $jbPrimaryTextHoverColor: rgba(0, 152, 108, 0.25);
 $jbPrimaryTableHeaderColor: rgba(31, 130, 255, 0.16);
 

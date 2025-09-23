@@ -70,7 +70,7 @@ export default {
     unEnabledSubject: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/Unenabled/${store.getters.project.projectDB}/${subjectId}`
+                url: `/api/v2/Subject/Unenabled/${subjectId}`
             });
             
             return true;
@@ -83,7 +83,7 @@ export default {
     subjectList: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/page/${store.getters.project.projectDB}`,
+                url: `/api/v2/Subject/page`,
                 param
             });
             const permission = get(res, 'permission', {});
@@ -99,7 +99,7 @@ export default {
     subjectAdd: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/add/${store.getters.project.projectDB}`,
+                url: `/api/v2/Subject/add`,
             });
 
             return get(res, 'siteList', []);
@@ -113,7 +113,7 @@ export default {
     subjectSingle: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/single/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Subject/single/${subjectId}`,
             });
 
             return get(res, 'siteList', []);
@@ -127,7 +127,7 @@ export default {
     subjectInsert: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/insert/${store.getters.project.projectDB}`,
+                url: `/api/v2/Subject/insert`,
                 param
             });
 
@@ -142,7 +142,7 @@ export default {
     subjectUpdate: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/update/${store.getters.project.projectDB}`,
+                url: `/api/v2/Subject/update`,
                 param
             });
 
@@ -157,7 +157,7 @@ export default {
     siteSubject: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Subject/siteSubject/${store.getters.project.projectDB}`,
+                url: `/api/v2/Subject/siteSubject`,
             });
             const siteList = get(res, 'siteList', []);
             const subjectList = get(res, 'subjectList', {});
@@ -177,7 +177,7 @@ export default {
     statiPage: async (formId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Stati/page/${store.getters.project.projectDB}/${formId}`,
+                url: `/api/v2/Stati/page/${formId}`,
                 param
             });
             const page = get(res, 'page', { pageIndex: 1, pageSize: 50, totalCount: 0 });
@@ -195,7 +195,7 @@ export default {
         try {
 
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Stati/download/${store.getters.project.projectDB}/${formId}`,
+                url: `/api/v2/Stati/download/${formId}`,
             });
             const link = document.createElement("a")
             const blob = new Blob([data], { type: "application/vnd.ms-excel" })
@@ -218,7 +218,7 @@ export default {
         try {
 
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Remind/download/${store.getters.project.projectDB}`,
+                url: `/api/v2/Remind/download`,
             });
             const link = document.createElement("a")
             const blob = new Blob([data], { type: "application/vnd.ms-excel" })
@@ -241,7 +241,7 @@ export default {
     visitSchedule: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/schedule/${store.getters.project.projectDB}`,
+                url: `/api/v2/Visit/schedule`,
             });
             const visitList = get(res, 'visitList', []);
             const visitSchedule = get(res, 'visitSchedule', []);
@@ -259,7 +259,7 @@ export default {
     visitProcess: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/process/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/process/${subjectId}`,
             });
             const body = get(res, 'body', []);
             const head = get(res, 'head', []);
@@ -283,7 +283,7 @@ export default {
     visitAdd: async (subjectId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/add/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/add/${subjectId}`,
                 param
             });
             return true;
@@ -296,7 +296,7 @@ export default {
     visitUpdate: async (subjectId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/update/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/update/${subjectId}`,
                 param
             });
             return true;
@@ -309,7 +309,7 @@ export default {
     visitDeleteLast: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/deleteLast/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/deleteLast/${subjectId}`,
             });
             return true;
         } catch (error) {
@@ -321,7 +321,7 @@ export default {
     visitSignBatch: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/signBatch/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/signBatch/${subjectId}`,
             });
             return true;
         } catch (error) {
@@ -333,7 +333,7 @@ export default {
     visitFreezeBatch: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/freezeBatch/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/freezeBatch/${subjectId}`,
             });
             return true;
         } catch (error) {
@@ -345,7 +345,7 @@ export default {
     visitLockBatch: async (subjectId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/lockBatch/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/lockBatch/${subjectId}`,
             });
             return true;
         } catch (error) {
@@ -357,7 +357,7 @@ export default {
     updateVisitDate: async (subjectId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Visit/updateVisitDate/${store.getters.project.projectDB}/${subjectId}`,
+                url: `/api/v2/Visit/updateVisitDate/${subjectId}`,
                 param
             });
             return true;
@@ -375,7 +375,7 @@ export default {
     siteList: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Site/list/${store.getters.project.projectDB}`,
+                url: `/api/v2/Site/list`,
                 param
             });
             const siteList = get(res, 'siteList', []);
@@ -390,7 +390,7 @@ export default {
     siteSingle: async (siteId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Site/single/${store.getters.project.projectDB}/${siteId}`,
+                url: `/api/v2/Site/single/${siteId}`,
             });
 
             return get(res, 'siteList', []);
@@ -404,7 +404,7 @@ export default {
     siteInsert: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Site/insert/${store.getters.project.projectDB}`,
+                url: `/api/v2/Site/insert`,
                 param
             });
 
@@ -419,7 +419,7 @@ export default {
     siteUpdate: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Site/update/${store.getters.project.projectDB}`,
+                url: `/api/v2/Site/update`,
                 param
             });
 
@@ -440,7 +440,7 @@ export default {
     exportStruct: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Export/struct/${store.getters.project.projectDB}`,
+                url: `/api/v2/Export/struct`,
             });
             const CRFFieldDict = get(res, 'CRFFieldDict', {});
             const visitCRFDict = get(res, 'visitCRFDict', {});
@@ -456,7 +456,7 @@ export default {
     exportAll: async (siteId, subjectId) => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/all/${store.getters.project.projectDB}/${siteId}/${subjectId}`,
+                url: `/api/v2/Export/all/${siteId}/${subjectId}`,
             });
             const link = document.createElement("a")
             const blob = new Blob([data], { type: "application/vnd.ms-excel" })
@@ -476,7 +476,7 @@ export default {
     exportCrfData: async () => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/all/table/${store.getters.project.projectDB}`,
+                url: `/api/v2/Export/all/table`,
             });
             const link = document.createElement("a")
             const blob = new Blob([data], { type: "application/vnd.ms-excel" })
@@ -497,7 +497,7 @@ export default {
     exportCustom: async (siteId, subjectId, param) => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/custom/${store.getters.project.projectDB}/${siteId}/${subjectId}`,
+                url: `/api/v2/Export/custom/${siteId}/${subjectId}`,
                 param
             });
             const link = document.createElement("a")
@@ -524,7 +524,7 @@ export default {
     userList: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/User/page/${store.getters.project.projectDB}`,
+                url: `/api/v2/User/page`,
                 param
             });
             const siteList = get(res, 'siteList', []);
@@ -542,7 +542,7 @@ export default {
     userAdd: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/User/add/${store.getters.project.projectDB}`,
+                url: `/api/v2/User/add`,
             });
 
             return get(res, 'siteList', []);
@@ -556,7 +556,7 @@ export default {
     userSingle: async (userId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/User/single/${store.getters.project.projectDB}/${userId}`,
+                url: `/api/v2/User/single/${userId}`,
             });
 
             return get(res, 'siteList', []);
@@ -570,7 +570,7 @@ export default {
     userInsert: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/User/insert/${store.getters.project.projectDB}`,
+                url: `/api/v2/User/insert`,
                 param
             });
             return get(res, 'userId', '');
@@ -582,7 +582,7 @@ export default {
     userUpdate: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/User/update/${store.getters.project.projectDB}`,
+                url: `/api/v2/User/update`,
                 param
             });
             return true;
@@ -614,7 +614,7 @@ export default {
     remindList: async (param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Remind/page/${store.getters.project.projectDB}`,
+                url: `/api/v2/Remind/page`,
                 param
             });
             const remindList = get(res, 'remindList', []);
@@ -631,7 +631,7 @@ export default {
     remindCount: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Remind/count/${store.getters.project.projectDB}`,
+                url: `/api/v2/Remind/count`,
             });
 
             return get(res, 'remindCount', '--');
@@ -651,7 +651,7 @@ export default {
     crfView: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/view/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/view/${formId}/${recordId}`,
             });
             const viewRecord = get(res, 'viewRecord', []);
             const crfHead = get(res, 'crfHead', {});
@@ -676,7 +676,7 @@ export default {
     crfViewEdit: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFEdit/crfEdit/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFEdit/crfEdit/${formId}/${recordId}`,
             });
             const viewRecord = get(res, 'editRecord', []);
             const crfHead = get(res, 'crfHead', {});
@@ -695,7 +695,7 @@ export default {
     crfViewUpdate: async (formId, recordId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFEdit/update/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFEdit/update/${formId}/${recordId}`,
                 param
             });
             return true;
@@ -714,7 +714,7 @@ export default {
         try {
 
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/operateQuery/${store.getters.project.projectDB}`,
+                url: `/api/v2/CRFView/operateQuery`,
                 param
             });
             return true;
@@ -732,7 +732,7 @@ export default {
         try {
 
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/responseViolation/${store.getters.project.projectDB}`,
+                url: `/api/v2/CRFView/responseViolation`,
                 param
             });
             return true;
@@ -746,7 +746,7 @@ export default {
     crfSubmit: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/submit/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/submit/${formId}/${recordId}`,
             });
 
             return true;
@@ -759,7 +759,7 @@ export default {
     crfAccept: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/accept/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/accept/${formId}/${recordId}`,
             });
 
             return true;
@@ -772,7 +772,7 @@ export default {
     crfVerify: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/verify/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/verify/${formId}/${recordId}`,
             });
 
             return true;
@@ -785,7 +785,7 @@ export default {
     crfSign: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/sign/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/sign/${formId}/${recordId}`,
             });
 
             return true;
@@ -798,7 +798,7 @@ export default {
     crfFreeze: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/freeze/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/freeze/${formId}/${recordId}`,
             });
 
             return true;
@@ -811,7 +811,7 @@ export default {
     crfLock: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/lock/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/lock/${formId}/${recordId}`,
             });
 
             return true;
@@ -824,7 +824,7 @@ export default {
     crfUnlock: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/unlock/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/unlock/${formId}/${recordId}`,
             });
 
             return true;
@@ -837,7 +837,7 @@ export default {
     crfUnfreeze: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/unfreeze/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/unfreeze/${formId}/${recordId}`,
             });
 
             return true;
@@ -850,7 +850,7 @@ export default {
     crfActive: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/active/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/active/${formId}/${recordId}`,
             });
 
             return true;
@@ -863,7 +863,7 @@ export default {
     crfNoactive: async (formId, recordId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/noactive/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/noactive/${formId}/${recordId}`,
             });
 
             return true;
@@ -876,7 +876,7 @@ export default {
     insertQuery: async (formId, recordId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/insertQuery/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFView/insertQuery/${formId}/${recordId}`,
                 param
             });
 
@@ -891,7 +891,7 @@ export default {
     responseQuery: async (queryId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/responseQuery/${store.getters.project.projectDB}/${queryId}`,
+                url: `/api/v2/CRFView/responseQuery/${queryId}`,
                 param
             });
 
@@ -905,7 +905,7 @@ export default {
     editQuery: async (queryId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/editQuery/${store.getters.project.projectDB}/${queryId}`,
+                url: `/api/v2/CRFView/editQuery/${queryId}`,
                 param
             });
 
@@ -919,7 +919,7 @@ export default {
     closeQuery: async (queryId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/closeQuery/${store.getters.project.projectDB}/${queryId}`,
+                url: `/api/v2/CRFView/closeQuery/${queryId}`,
             });
 
             return true;
@@ -932,7 +932,7 @@ export default {
     deleteQuery: async (queryId) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFView/deleteQuery/${store.getters.project.projectDB}/${queryId}`,
+                url: `/api/v2/CRFView/deleteQuery/${queryId}`,
             });
 
             return true;
@@ -959,7 +959,7 @@ export default {
         ]
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFAudit/crfAudit/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/CRFAudit/crfAudit/${formId}/${recordId}`,
             });
             const body = get(res, 'auditBody', []);
             let auditHead = get(res, 'auditHead', []);
@@ -996,7 +996,7 @@ export default {
     crfList: async (formId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/CRFList/page/${store.getters.project.projectDB}/${formId}`,
+                url: `/api/v2/CRFList/page/${formId}`,
                 param
             });
             const page = get(res, 'page', { pageIndex: 1, pageSize: 50, totalCount: 0 });
@@ -1015,7 +1015,7 @@ export default {
     crfListDownload: async (formId) => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/CRFList/download/${store.getters.project.projectDB}/${formId}`,
+                url: `/api/v2/CRFList/download/${formId}`,
                 config: {
                     responseType: "blob",
                 },
@@ -1059,7 +1059,7 @@ export default {
     recordMeddraList: async (param = {}) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Meddra/recordMeddraList/${store.getters.project.projectDB}`,
+                url: `/api/v2/Meddra/recordMeddraList`,
                 param
             });
             const meddraList = get(res, 'meddraList', []);
@@ -1075,7 +1075,7 @@ export default {
     recordMeddraUpdate: async (formId, recordId, param = {}) => { // 暂时不用
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Meddra/recordMeddra/update/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/Meddra/recordMeddra/update/${formId}/${recordId}`,
                 param
             });
             return true;
@@ -1133,7 +1133,7 @@ export default {
     updateMeddra: async (formId, recordId, param) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Meddra/meddraLocal/update/${store.getters.project.projectDB}/${formId}/${recordId}`,
+                url: `/api/v2/Meddra/meddraLocal/update/${formId}/${recordId}`,
                 param
             });
             
@@ -1147,7 +1147,7 @@ export default {
     subjectExport: async (formId) => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/subject/${store.getters.project.projectDB}`,
+                url: `/api/v2/Export/subject`,
                 config: {
                     responseType: "blob",
                 },
@@ -1171,7 +1171,7 @@ export default {
     siteExport: async (formId) => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/site/${store.getters.project.projectDB}`,
+                url: `/api/v2/Export/site`,
                 config: {
                     responseType: "blob",
                 },
@@ -1195,7 +1195,7 @@ export default {
     userExport: async () => {
         try {
             const {data, fileName} = await store.dispatch("handleDownload", {
-                url: `/api/v2/Export/user/${store.getters.project.projectDB}`,
+                url: `/api/v2/Export/user`,
                 config: {
                     responseType: "blob",
                 },
@@ -1221,7 +1221,7 @@ export default {
     dashboard: async () => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/Dashboard/view/${store.getters.project.projectDB}`,
+                url: `/api/v2/Dashboard/view`,
             });
             const nCRFAccept = get(res, 'dashboard.nCRFAccept', 0);
             const nCRFEmpty = get(res, 'dashboard.nCRFEmpty', 0);

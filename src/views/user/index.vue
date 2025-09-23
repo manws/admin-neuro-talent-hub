@@ -2,14 +2,11 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp :usergroupList="usergroupList" :siteList="siteList" @search="handleSearch"></search-comp>
+        <search-comp :usergroupList="usergroupList" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
-          <div v-if="permission.isAdd === 1" class="btn-add" @click="handleAdd" style="margin: 0 6px">
+          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
             <span style="margin-left: 4px">新增</span>
-          </div>
-          <div v-if="permission.isExport === 1" class="btn-add" @click="handleExport" style="margin-right: 6px">
-            <span style="margin-left: 4px">导出</span>
           </div>
           <TableColumnSelect v-model="disPlayField" :columns="this.head" name="fieldName">
             <div class="btn-select">
@@ -26,8 +23,7 @@
           <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div v-if="permission.isEdit === 1" class="btn-text" @click="handleEdit(scope.row)">编辑</div>
-                <div v-else class="btn-text" style="color: #CECECE;cursor: default;">编辑</div>
+                <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
                 <div class="btn-text" @click="handleResetPwd(scope.row)">
                   重置密码
                 </div>
@@ -52,7 +48,7 @@
         </CommonPagination>
       </div>
     </div>
-    <OpDialog ref="opDlg" :usergroupList="usergroupList" :siteList="siteList" @refresh="initData"></OpDialog>
+    <OpDialog ref="opDlg" :usergroupList="usergroupList" @refresh="initData"></OpDialog>
 
     <reset-pwd-dialog ref="resetPwdDlg"></reset-pwd-dialog>
   </ComponentsContainer>
@@ -82,17 +78,14 @@ export default {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      siteList: [],
       userList: [],
       usergroupList: [],
       tableData: [],
-      permission: {},
       param: {
         pageIndex: 1,
         pageSize: 50,
         orderTypeId: 0,
         orderFieldCode: "",
-        siteName: "",
         usergroupId: null,
         userCode: "",
       },
@@ -129,22 +122,19 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { siteList, userList, usergroupList, page, permission } =
+      const { userList, usergroupList, page } =
         await this.service.userList(this.param);
       this.tableData = userList;
-      this.siteList = siteList;
       this.usergroupList = usergroupList;
       this.page = page;
-      this.permission = permission;
       this.listLoading = false;
     },
     async refreshData() {
       this.listLoading = true;
-      const { siteList, userList, usergroupList, page, permission } =
+      const { userList, usergroupList, page } =
         await this.service.userList(this.param);
       this.tableData = userList;
       this.page = page;
-      this.permission = permission;
       this.listLoading = false;
     },
     handleSearch(obj) {
