@@ -49,8 +49,6 @@
       </div>
     </div>
     <OpDialog ref="opDlg" :usergroupList="usergroupList" @refresh="initData"></OpDialog>
-
-    <reset-pwd-dialog ref="resetPwdDlg"></reset-pwd-dialog>
   </ComponentsContainer>
 </template>
 
@@ -63,7 +61,6 @@ import OpDialog from "./OpDialog";
 import SearchComp from "./SearchComp";
 
 import service from "./service.js";
-import ResetPwdDialog from "./ResetPwdDialog.vue";
 export default {
   name: "User",
   components: {
@@ -72,7 +69,6 @@ export default {
     TableColumnSelect,
     SearchComp,
     OpDialog,
-    ResetPwdDialog,
   },
   data() {
     return {

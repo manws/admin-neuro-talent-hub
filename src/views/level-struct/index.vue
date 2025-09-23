@@ -20,7 +20,7 @@
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
-          <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
+          <!-- <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
                 <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
@@ -29,7 +29,7 @@
                 </div>
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
             :label="column.fieldName" align="center" :minWidth="column.minWidth">
             <template slot-scope="scope">
@@ -43,14 +43,12 @@
         </el-table>
       </div>
       <div class="flex-style-base" style="justify-content: flex-end">
-        <CommonPagination :total="page.totalCount" :pagesize="param.pageSize" :current="param.pageIndex"
+        <CommonPagination :total="tableData.length" :pagesize="param.pageSize" :current="param.pageIndex"
           @onSizeChange="handlePageSizeChange" @onCurrentChange="handleCurrentPageChange">
         </CommonPagination>
       </div>
     </div>
     <OpDialog ref="opDlg" :usergroupList="usergroupList" @refresh="initData"></OpDialog>
-
-    <reset-pwd-dialog ref="resetPwdDlg"></reset-pwd-dialog>
   </ComponentsContainer>
 </template>
 
@@ -63,7 +61,6 @@ import OpDialog from "./OpDialog";
 import SearchComp from "./SearchComp";
 
 import service from "./service.js";
-import ResetPwdDialog from "./ResetPwdDialog.vue";
 export default {
   name: "User",
   components: {
@@ -72,13 +69,11 @@ export default {
     TableColumnSelect,
     SearchComp,
     OpDialog,
-    ResetPwdDialog,
   },
   data() {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      userList: [],
       usergroupList: [
         {
           usergroupId: 1,
@@ -132,18 +127,16 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
-      this.page = page;
+      const { level0StructList } =
+        await service.level0List();
+      this.tableData = level0StructList;
       this.listLoading = false;
     },
     async refreshData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
-      this.page = page;
+      const { level0StructList } =
+        await service.level0List();
+      this.tableData = level0StructList;
       this.listLoading = false;
     },
     handleSearch(obj) {

@@ -78,47 +78,47 @@ export const constantRoutes = [
         redirect: "/dashboard",
         children: [
             {
-                path: "dashboard",
-                component: () => import("@/views/user/index"),
-                name: "Dashboard",
+                path: "score-type",
+                component: () => import("@/views/score-type/index"),
+                name: "ScoreType",
                 meta: { title: "考核信息管理", icon: "menu-dashboard", affix: true },
             },
         ],
     },
     {
-        path: "/check-result",
+        path: "/user-score",
         component: Layout,
         hidden: false,
         children: [
             {
                 path: "index",
-                component: () => import("@/views/user/index"),
+                component: () => import("@/views/user-score/index"),
                 name: "Icons",
                 meta: { title: "人员考核结果", icon: "form", noCache: true },
             },
         ],
     },
     {
-        path: "/dict",
+        path: "/level-struct",
         component: Layout,
         hidden: false,
         meta: { title: "考核字典", icon: "chart", noCache: true },
         children: [
             {
                 path: "dict-1",
-                component: () => import("@/views/user/index"),
+                component: () => import("@/views/level-struct/index"),
                 name: "Icons",
                 meta: { title: "考核一级字典", icon: "nested", noCache: true },
             },
              {
                 path: "dict-2",
-                component: () => import("@/views/user/index"),
+                component: () => import("@/views/level-struct/index"),
                 name: "Icons",
                 meta: { title: "考核二级字典", icon: "nested", noCache: true },
             },
              {
                 path: "dict-3",
-                component: () => import("@/views/user/index"),
+                component: () => import("@/views/level-struct-2/index"),
                 name: "Icons",
                 meta: { title: "考核三级字典", icon: "nested", noCache: true },
             },
@@ -132,6 +132,7 @@ export const constantRoutes = [
             {
                 path: "index",
                 component: () => import("@/views/user/index"),
+                name: "User",
                 meta: { title: "用户管理", icon: "peoples", noCache: true },
             },
         ],

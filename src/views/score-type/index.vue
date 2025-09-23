@@ -2,7 +2,7 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp :usergroupList="usergroupList" @search="handleSearch"></search-comp>
+        <search-comp @search="handleSearch" :stateMap="stateMap"></search-comp>
         <div class="flex-style-base">
           <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
@@ -20,13 +20,20 @@
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
+          <el-table-column prop="operation" label="记录操作" align="center" width="100" fixed="right">
+            <template slot-scope="scope">
+              <div class="flex-style-base" style="justify-content: space-around">
+                <div v-if="scope.row.state < 2" class="btn-text" @click="openDrawer(scope.row)">编辑内容</div>
+                <div v-else="scope.row.state < 2">无</div>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
-                <div class="btn-text" @click="handleResetPwd(scope.row)">
-                  重置密码
-                </div>
+                <div class="btn-text" @click="handleOp(scope.row, 2)">发布</div>
+                <div class="btn-text" @click="handleOp(scope.row, 10)">结束</div>
+                <div class="btn-text" @click="handleOp(scope.row, 99)">删除</div>
               </div>
             </template>
           </el-table-column>
@@ -36,7 +43,9 @@
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{
                   scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode === 'usergroupId'">{{ scope.row.enabled === 1 ? "管理员" : "评测人员" }}</span>
+              <span v-else-if="column.fieldCode.indexOf('level') === 0">{{ scope.row[column.fieldCode] === 1 ? "考核" :
+                "不考核" }}</span>
+              <span v-else-if="column.fieldCode === 'state'">{{ stateMap[scope.row.state] }}</span>
               <span v-else>{{ scope.row[column.fieldCode] }}</span>
             </template>
           </el-table-column>
@@ -48,9 +57,8 @@
         </CommonPagination>
       </div>
     </div>
-    <OpDialog ref="opDlg" :usergroupList="usergroupList" @refresh="initData"></OpDialog>
-
-    <reset-pwd-dialog ref="resetPwdDlg"></reset-pwd-dialog>
+    <OpDialog ref="opDlg" @refresh="initData" :stateMap="stateMap"></OpDialog>
+    <EditDrawer ref="drawer"></EditDrawer>
   </ComponentsContainer>
 </template>
 
@@ -61,9 +69,9 @@ import CommonPagination from "_c/Common/CommonPagination";
 import TableColumnSelect from "_c/Common/TableColumnSelect";
 import OpDialog from "./OpDialog";
 import SearchComp from "./SearchComp";
+import EditDrawer from "./EditDrawer";
 
 import service from "./service.js";
-import ResetPwdDialog from "./ResetPwdDialog.vue";
 export default {
   name: "User",
   components: {
@@ -72,36 +80,32 @@ export default {
     TableColumnSelect,
     SearchComp,
     OpDialog,
-    ResetPwdDialog,
+    EditDrawer
   },
   data() {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      userList: [],
-      usergroupList: [
-        {
-          usergroupId: 1,
-          usergroupName: '管理员'
-        },
-        {
-          usergroupId: 2,
-          usergroupName: '评测人员'
-        }
-
-      ],
+      scoreTypeList: [],
       tableData: [],
       param: {
         pageIndex: 1,
         pageSize: 50,
         orderTypeId: 0,
         orderFieldCode: "",
-        usergroupId: null,
-        userCode: "",
+        subOn: null,
+        scoreTypeName: "",
       },
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
+      stateMap: {
+        0: '新增成功',
+        1: '生成评分表',
+        2: '发布成功',
+        10: '评分结束',
+        99: '删除评分'
+      }
     };
   },
   mounted() {
@@ -132,17 +136,21 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
+      const { scoreTypeList, page } =
+        await service.getScoreTypeList(this.param);
+      this.tableData = scoreTypeList;
       this.page = page;
       this.listLoading = false;
     },
+    async openDrawer(row) {
+      this.$refs.drawer.openDrawer(row)
+
+    },
     async refreshData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
+      const { scoreTypeList, page } =
+        await service.getScoreTypeList(this.param);
+      this.tableData = scoreTypeList;
       this.page = page;
       this.listLoading = false;
     },
@@ -178,8 +186,28 @@ export default {
         this.$message.info("已取消操作");
       });
     },
-    handleEdit(row) {
-      this.$refs.opDlg.show(row);
+    handleOp(row, state) {
+      let text = ''
+      if (state == 2) {
+        text = '发布'
+      } else if (state == 10) {
+        text = '结束'
+      } else if (state == 99) {
+        text = '删除'
+      }
+      this.$confirm(`是否确定执行【${text}】操作？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const updateSuccess = await service.updateState(row.id, state);
+        if (updateSuccess) {
+          this.refreshData();
+        }
+      }).catch(() => {
+        this.$message.info("已取消操作");
+      });
+
     },
     handleResetPwd(row) {
       this.$refs.resetPwdDlg.show(row);
