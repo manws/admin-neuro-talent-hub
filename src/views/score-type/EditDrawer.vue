@@ -1,6 +1,6 @@
 <template>
   <el-drawer :title="row.scoreTypeName" :custom-class="'draw-container'" class="drawer-container" :visible.sync="showDrawer"
-    size="75%" direction="rtl" :destroy-on-close="true" wrapperClosable :before-close="handleClose" @close="close">
+    :size="drawerWidth" direction="rtl" :destroy-on-close="true" wrapperClosable :before-close="handleClose" @close="close">
     <div class="flex-style-column drawer-body" v-loading="bodyLoading">
       <div class="line"></div>
       <div v-if="!bodyLoading" class="content">
@@ -52,6 +52,17 @@ export default {
       row: {}
 
     };
+  },
+  computed: {
+    drawerWidth() {
+      // 获取屏幕宽度
+      const screenWidth = window.innerWidth;
+      // 计算50%屏幕宽度
+      const halfScreenWidth = screenWidth * 0.5;
+      // 最大宽度800px，最小宽度为屏幕的50%
+      const width = Math.min(1000, Math.max(halfScreenWidth, 400));
+      return `${width}px`;
+    }
   },
   methods: {
     resetData() {
@@ -106,7 +117,11 @@ export default {
     },
     async submit() {
       console.log('121212', JSON.stringify(this.param))
-      await service.updateScoreStruct(this.scoreTypeId, this.param)
+      const isSuccess = await service.updateScoreStruct(this.scoreTypeId, this.param)
+      if (isSuccess) {
+        this.$emit('refresh')
+        this.closeDrawer()
+      }
 
 
     },
@@ -124,10 +139,6 @@ export default {
 </script>
 
 <style lang="scss">
-.draw-container {
-  min-width: 600px;
-}
-
 .draw-container {
   .el-drawer__header {
     font-size: 16px;

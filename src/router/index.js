@@ -75,7 +75,7 @@ export const constantRoutes = [
     {
         path: "/",
         component: Layout,
-        redirect: "/dashboard",
+        redirect: "/score-type",
         children: [
             {
                 path: "score-type",

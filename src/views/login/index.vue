@@ -87,7 +87,7 @@ export default {
       const loginSuccess = await this.service.login(param);
       if (loginSuccess) {
         this.$router.push({
-          path: "/user",
+          path: "/score-type",
         });
       }
       this.loading = false;

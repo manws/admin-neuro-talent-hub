@@ -1,20 +1,11 @@
 <template>
   <ComponentsContainer>
     <div class="flex-style-column content-container">
-      <div class="flex-style-base header-container">
-        <search-comp :usergroupList="usergroupList" @search="handleSearch"></search-comp>
-        <div class="flex-style-base">
-          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
-            <i class="el-icon-circle-plus"></i>
-            <span style="margin-left: 4px">新增</span>
-          </div>
-          <TableColumnSelect v-model="disPlayField" :columns="this.head" name="fieldName">
-            <div class="btn-select">
-              <i class="el-icon-s-grid"></i>
-            </div>
-          </TableColumnSelect>
+      <TableColumnSelect v-show="false" v-model="disPlayField" :columns="this.head" name="fieldName">
+        <div class="btn-select">
+          <i class="el-icon-s-grid"></i>
         </div>
-      </div>
+      </TableColumnSelect>
 
       <div class="table-container">
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
@@ -29,7 +20,7 @@
                 </div>
               </div>
             </template>
-          </el-table-column> -->
+</el-table-column> -->
           <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
             :label="column.fieldName" align="center" :minWidth="column.minWidth">
             <template slot-scope="scope">
@@ -127,15 +118,13 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { level0StructList } =
-        await service.level0List();
+      const { level0StructList } = await service.level0List();
       this.tableData = level0StructList;
       this.listLoading = false;
     },
     async refreshData() {
       this.listLoading = true;
-      const { level0StructList } =
-        await service.level0List();
+      const { level0StructList } = await service.level0List();
       this.tableData = level0StructList;
       this.listLoading = false;
     },

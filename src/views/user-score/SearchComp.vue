@@ -1,15 +1,13 @@
 <template>
   <div class="flex-style-base fit-inut">
-    <div class="search-comp-label" style="margin-left: 16px">账户</div>
-    <el-input v-model="userCode" style="width: 180px; margin-left: 8px" placeholder="请输入" />
-    <div class="search-comp-label group-search" style="margin-left: 16px">权限</div>
-    <el-select v-model="usergroupId" class="group-search" placeholder="请选择" style="flex: 1" filterable clearable>
-      <el-option v-for="(item, index) in usergroupList" :key="index" :label="item.usergroupName"
-        :value="item.usergroupId"></el-option>
+    <div class="search-comp-label group-search">一级考核名称</div>
+    <el-select v-model="level0Id" class="group-search" placeholder="请选择" style="flex: 1" filterable>
+      <el-option v-for="(item, index) in level0StructList" :key="index" :label="item.level0Name"
+        :value="item.id"></el-option>
     </el-select>
 
     <div class="flex-style-base" style="margin-left: 10px">
-      <div class="btn-reset" style="margin: 0 6px" @click="reset">重置</div>
+      <!-- <div class="btn-reset" style="margin: 0 6px" @click="reset">重置</div> -->
       <div class="btn-search" style="margin: 0 6px" @click="search">检索</div>
     </div>
   </div>
@@ -18,32 +16,34 @@
 <script>
 export default {
   props: {
-    usergroupList: {
+    level0StructList: {
       type: Array,
       default: () => [],
     },
   },
   data() {
     return {
-      usergroupId: "",
-      userCode: "",
+      level0Id: "",
     };
   },
-  computed: {},
+  watch: {
+    level0StructList(n, o) {
+      if (n && n.length > 0) {
+        this.level0Id = this.level0StructList[0].id
+      }
+    }
+  },
   methods: {
     reset() {
-      this.usergroupId = "";
-      this.userCode = "";
+      this.level0Id = "";
       let result = {
-        userCode: "",
-        usergroupId: this.usergroupId,
+        level0Id: this.level0Id,
       };
       this.$emit("search", result);
     },
     search() {
       let result = {
-        userCode: this.userCode,
-        usergroupId: this.usergroupId,
+        level0Id: this.level0Id,
       };
 
       this.$emit("search", result);

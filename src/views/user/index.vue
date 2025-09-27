@@ -133,7 +133,7 @@ export default {
     async initData() {
       this.listLoading = true;
       const { userList, page } =
-        await this.service.userList(this.param);
+        await service.userList(this.param);
       this.tableData = userList;
       this.page = page;
       this.listLoading = false;
@@ -141,7 +141,7 @@ export default {
     async refreshData() {
       this.listLoading = true;
       const { userList, page } =
-        await this.service.userList(this.param);
+        await service.userList(this.param);
       this.tableData = userList;
       this.page = page;
       this.listLoading = false;
@@ -173,7 +173,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(async () => {
-        await this.service.userExport();
+        await service.userExport();
       }).catch(() => {
         this.$message.info("已取消操作");
       });

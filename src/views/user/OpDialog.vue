@@ -55,6 +55,7 @@
 
 <script>
 import { isMobile, isEmail } from "@/utils/tools";
+import service from './service.js'
 export default {
   props: {
     usergroupList: {
@@ -186,7 +187,7 @@ export default {
       }
     },
     async addData(param) {
-      const id = await this.service.userInsert(param);
+      const id = await service.userInsert(param);
       if (!!id) {
         this.$message({
           message: "用户新增成功",
@@ -198,7 +199,7 @@ export default {
       this.loading = false;
     },
     async updateData(param) {
-      const isSuccess = await this.service.userUpdate(param);
+      const isSuccess = await service.userUpdate(param.id, param);
       if (isSuccess) {
         this.$message({
           message: "用户更新成功",

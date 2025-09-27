@@ -2,12 +2,12 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp :usergroupList="usergroupList" @search="handleSearch"></search-comp>
+        <search-comp :scoreTypeList="scoreTypeList" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
-          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
+          <!-- <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
             <span style="margin-left: 4px">新增</span>
-          </div>
+          </div> -->
           <TableColumnSelect v-model="disPlayField" :columns="this.head" name="fieldName">
             <div class="btn-select">
               <i class="el-icon-s-grid"></i>
@@ -20,7 +20,7 @@
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
           <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
-          <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
+          <!-- <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
                 <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
@@ -29,7 +29,7 @@
                 </div>
               </div>
             </template>
-          </el-table-column>
+</el-table-column> -->
           <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
             :label="column.fieldName" align="center" :minWidth="column.minWidth">
             <template slot-scope="scope">
@@ -43,12 +43,12 @@
         </el-table>
       </div>
       <div class="flex-style-base" style="justify-content: flex-end">
-        <CommonPagination :total="page.totalCount" :pagesize="param.pageSize" :current="param.pageIndex"
+        <CommonPagination :total="tableData.length" :pagesize="param.pageSize" :current="param.pageIndex"
           @onSizeChange="handlePageSizeChange" @onCurrentChange="handleCurrentPageChange">
         </CommonPagination>
       </div>
     </div>
-    <OpDialog ref="opDlg" :usergroupList="usergroupList" @refresh="initData"></OpDialog>
+    <OpDialog ref="opDlg" :scoreTypeList="scoreTypeList" @refresh="initData"></OpDialog>
   </ComponentsContainer>
 </template>
 
@@ -74,18 +74,7 @@ export default {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      userList: [],
-      usergroupList: [
-        {
-          usergroupId: 1,
-          usergroupName: '管理员'
-        },
-        {
-          usergroupId: 2,
-          usergroupName: '评测人员'
-        }
-
-      ],
+      scoreTypeList: [],
       tableData: [],
       param: {
         pageIndex: 1,
@@ -98,6 +87,8 @@ export default {
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
+      scoreTypeList: [],
+      level0Id: null
     };
   },
   mounted() {
@@ -128,23 +119,21 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
-      this.page = page;
+      const { scoreTypeList } = await service.page(this.param);
+      this.scoreTypeList = scoreTypeList
+      this.tableData = scoreTypeList;
       this.listLoading = false;
     },
     async refreshData() {
       this.listLoading = true;
-      const { userList, page } =
-        await this.service.userList(this.param);
-      this.tableData = userList;
-      this.page = page;
+      const { scoreTypeList } = await service.page(this.param);
+      this.tableData = scoreTypeList;
       this.listLoading = false;
     },
     handleSearch(obj) {
       // 搜索内容区发生变化
       let { pageSize, orderTypeId, orderFieldCode } = this.param;
+      this.level0Id = obj.level0Id
       this.param = Object.assign({ pageIndex: 1, pageSize, orderTypeId, orderFieldCode }, obj);
       this.refreshData();
     },

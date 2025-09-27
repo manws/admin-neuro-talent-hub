@@ -4,12 +4,12 @@ import { Message } from "element-ui"
 
 export default {
     head: [
-        {
-            fieldName: '考核名称',
-            fieldCode: 'scoreTypeName',
-            align: 'center',
-            value: ''
-        },
+        // {
+        //     fieldName: '考核名称',
+        //     fieldCode: 'scoreTypeName',
+        //     align: 'center',
+        //     value: ''
+        // },
         {
             fieldName: '医疗工作',
             fieldCode: 'level1',
@@ -40,18 +40,18 @@ export default {
             align: 'center',
             value: ''
         },
-        {
+         {
             fieldName: '考核状态',
             fieldCode: 'state',
             align: 'center',
             value: ''
         },
-        // {
-        //     fieldName: '参与考核人数',
-        //     fieldCode: 'updateBy',
-        //     align: 'center',
-        //     value: ''
-        // },
+        {
+            fieldName: '发布人员',
+            fieldCode: 'subBy',
+            align: 'center',
+            value: ''
+        },
         {
             fieldName: '发布时间',
             fieldCode: 'subOn',
@@ -61,12 +61,6 @@ export default {
         {
             fieldName: '结束时间',
             fieldCode: 'endOn',
-            align: 'center',
-            value: ''
-        },
-        {
-            fieldName: '发布人员',
-            fieldCode: 'subBy',
             align: 'center',
             value: ''
         }
@@ -123,14 +117,13 @@ export default {
                 url: `/api/v2/ScoreType/updateScoreStruct/${scoreTypeId}`,
                 param
             });
-            const level2AllDict = get(res, 'level2AllDict', {});
-            const scoreStructDict = get(res, 'scoreStructDict', {});
-            return { level2AllDict, scoreStructDict };
+            Message.success('更新评分信息信息成功！');
+            return true;
         } catch (error) {
             console.log('error', error);
-            Message.error(error && typeof error === 'string' ? error : '请求失败');
+            Message.error(error && typeof error === 'string' ? error : '更新评分信息信息失败！');
         }
-        return { scoreStructDict: {}, level2AllDict: {} };
+        return false;
 
     },
     insert: async(param) => {
@@ -139,14 +132,12 @@ export default {
                 url: `/api/v2/ScoreType/insert`,
                 param
             });
-            const level2AllDict = get(res, 'level2AllDict', {});
-            const scoreStructDict = get(res, 'scoreStructDict', {});
-            return { level2AllDict, scoreStructDict };
+            return true;
         } catch (error) {
             console.log('error', error);
             Message.error(error && typeof error === 'string' ? error : '请求失败');
         }
-        return { scoreStructDict: {}, level2AllDict: {} };
+        return false;
 
     },
     updateState: async(scoreTypeId, state) => {

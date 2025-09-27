@@ -19,34 +19,46 @@
       <div class="table-container">
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
-          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
-          <el-table-column prop="operation" label="记录操作" align="center" width="100" fixed="right">
+          <el-table-column label="序号" type="index" align="center" width="50" fixed></el-table-column>
+          <el-table-column prop="operation" label="记录操作" align="center" width="160" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div v-if="scope.row.state < 2" class="btn-text" @click="openDrawer(scope.row)">编辑内容</div>
-                <div v-else="scope.row.state < 2">无</div>
+                <div v-if="scope.row.state == 0" class="btn-text" @click="openDrawer(scope.row)">编辑考核</div>
+                <div v-else>无</div>
+                <div v-if="scope.row.state == 0" class="btn-text" @click="openDrawer(scope.row)">查看考核</div>
               </div>
             </template>
           </el-table-column>
           <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" @click="handleOp(scope.row, 2)">发布</div>
-                <div class="btn-text" @click="handleOp(scope.row, 10)">结束</div>
-                <div class="btn-text" @click="handleOp(scope.row, 99)">删除</div>
+                <div class="btn-text" v-if="scope.row.state == 1" @click="handleOp(scope.row, 2)">发布</div>
+                <div class="btn-text" v-if="scope.row.state == 2" @click="handleOp(scope.row, 10)">结束</div>
+                <div class="btn-text" v-if="scope.row.state != 99" @click="handleOp(scope.row, 99)">删除</div>
               </div>
             </template>
           </el-table-column>
+          <el-table-column sortable="custom" prop="scoreTypeName" label="考核名称" align="center" minWidth="200" fiexd="left">
+            <template slot-scope="scope">
+              <span>{{ scope.row.scoreTypeName }}</span>
+            </template>index
+          </el-table-column>
+
           <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
-            :label="column.fieldName" align="center" :minWidth="column.minWidth">
+            :label="column.fieldName" align="center" :minWidth="column.minWidth"
+            :fiexd="column.fieldCode === 'scoreTypeName'">
             <template slot-scope="scope">
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{
                   scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode.indexOf('level') === 0">{{ scope.row[column.fieldCode] === 1 ? "考核" :
+              <span v-else-if="column.fieldCode.indexOf('level') === 0"
+                :style="{ color: scope.row[column.fieldCode] === 0 ? 'red' : 'green' }">{{ scope.row[column.fieldCode]
+                  === 1 ? "考核" :
                 "不考核" }}</span>
               <span v-else-if="column.fieldCode === 'state'">{{ stateMap[scope.row.state] }}</span>
+              <span v-else-if="column.fieldCode === 'subOn'">{{ scope.row.subOn ? scope.row.subOn : '未发布' }}</span>
               <span v-else>{{ scope.row[column.fieldCode] }}</span>
+
             </template>
           </el-table-column>
         </el-table>
@@ -58,7 +70,7 @@
       </div>
     </div>
     <OpDialog ref="opDlg" @refresh="initData" :stateMap="stateMap"></OpDialog>
-    <EditDrawer ref="drawer"></EditDrawer>
+    <EditDrawer ref="drawer" @refresh="initData"></EditDrawer>
   </ComponentsContainer>
 </template>
 
@@ -100,11 +112,11 @@ export default {
       page: {},
       disPlayField: [], // 显示的列
       stateMap: {
-        0: '新增成功',
-        1: '生成评分表',
-        2: '发布成功',
-        10: '评分结束',
-        99: '删除评分'
+        0: '待编辑',
+        1: '待发布',
+        2: '考核中',
+        10: '考核结束',
+        99: '已删除'
       }
     };
   },

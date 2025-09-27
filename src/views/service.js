@@ -527,10 +527,10 @@ export default {
                 url: `/api/v2/User/page`,
                 param
             });
-            const siteList = get(res, 'siteList', []);
-            const userList = get(res, 'userList', []);
-            const usergroupList = get(res, 'usergroupList', []);
-            const permission = get(res, 'permission', {});
+            const siteList = get(res, 'siteList', []) || [];
+            const userList = get(res, 'userList', []) || [];
+            const usergroupList = get(res, 'usergroupList', []) || [];
+            const permission = get(res, 'permission', {}) || {};
             const page = get(res, 'page', { pageIndex: 1, pageSize: 50, totalCount: 0 });
             return { siteList, userList, usergroupList, page, permission };
         } catch (error) {
