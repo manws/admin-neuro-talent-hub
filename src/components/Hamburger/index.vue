@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 0 15px" @click="toggleClick">
         <div class="hamburger" :class="{ 'is-active': isActive }" >
-            <svg-icon icon-class="hamburger" style=";font-size: 20px;"></svg-icon>
+            <svg-icon icon-class="hamburger" style="color: #ffffff;font-size: 20px;"></svg-icon>
         </div>
     </div>
 </template>

@@ -2,12 +2,12 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp @search="handleSearch" :stateMap="stateMap"></search-comp>
+        <search-comp :level0StructList="level0StructList" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
-          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
+          <!-- <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
             <span style="margin-left: 4px">新增</span>
-          </div>
+          </div> -->
           <TableColumnSelect v-model="disPlayField" :columns="this.head" name="fieldName">
             <div class="btn-select">
               <i class="el-icon-s-grid"></i>
@@ -19,56 +19,36 @@
       <div class="table-container">
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
-          <el-table-column label="序号" type="index" align="center" width="50" fixed></el-table-column>
-          <el-table-column prop="operation" label="记录操作" align="center" width="160" fixed="right">
+          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
+          <!-- <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" :class="[scope.row.state === 0 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 1)">编辑考核</div>
-                <div class="btn-text" :class="[scope.row.state > 0 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 2)">查看考核</div>
+                <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
+                <div class="btn-text" @click="handleResetPwd(scope.row)">
+                  重置密码
+                </div>
               </div>
             </template>
-          </el-table-column>
-          <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
-            <template slot-scope="scope">
-              <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" :class="[scope.row.state === 1 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 2)">发布</div>
-                <div class="btn-text" :class="[scope.row.state === 2 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 10)">结束</div>
-                <div class="btn-text" :class="[scope.row.state !== 99 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 99)">删除</div>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column sortable="custom" prop="scoreTypeName" label="考核名称" align="center" minWidth="200" fixed>
-            <template slot-scope="scope">
-            <div>
-              <span>{{ scope.row.scoreTypeName }}</span>
-            </div>
-            </template>
-          </el-table-column>
-
+</el-table-column> -->
           <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
-            :label="column.fieldName" align="center" :minWidth="column.minWidth"
-            :fiexd="column.fieldCode === 'scoreTypeName'">
+            :label="column.fieldName" align="center" :minWidth="column.minWidth">
             <template slot-scope="scope">
               <span v-if="column.fieldCode === 'enabled'"
-                :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{ scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode.indexOf('level') === 0"
-                :style="{ color: scope.row[column.fieldCode] === 0 ? '#AFAFAF' : '#00986c' }">{{ scope.row[column.fieldCode]
-                  === 1 ? "考核" : "不考核" }}</span>
-              <span v-else-if="column.fieldCode === 'state'">{{ stateMap[scope.row.state] }}</span>
-              <span v-else-if="column.fieldCode === 'subOn'">{{ scope.row.subOn ? scope.row.subOn : '未发布' }}</span>
+                :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{
+                  scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
+              <span v-else-if="column.fieldCode === 'usergroupId'">{{ scope.row.enabled === 1 ? "管理员" : "评测人员" }}</span>
               <span v-else>{{ scope.row[column.fieldCode] }}</span>
             </template>
           </el-table-column>
         </el-table>
       </div>
       <div class="flex-style-base" style="justify-content: flex-end">
-        <CommonPagination :total="page.totalCount" :pagesize="param.pageSize" :current="param.pageIndex"
+        <CommonPagination :total="tableData.length" :pagesize="param.pageSize" :current="param.pageIndex"
           @onSizeChange="handlePageSizeChange" @onCurrentChange="handleCurrentPageChange">
         </CommonPagination>
       </div>
     </div>
-    <OpDialog ref="opDlg" @refresh="initData" :stateMap="stateMap"></OpDialog>
-    <EditDrawer ref="drawer" @refresh="initData"></EditDrawer>
+    <OpDialog ref="opDlg" :level0StructList="level0StructList" @refresh="initData"></OpDialog>
   </ComponentsContainer>
 </template>
 
@@ -79,7 +59,6 @@ import CommonPagination from "_c/Common/CommonPagination";
 import TableColumnSelect from "_c/Common/TableColumnSelect";
 import OpDialog from "./OpDialog";
 import SearchComp from "./SearchComp";
-import EditDrawer from "./EditDrawer";
 
 import service from "./service.js";
 export default {
@@ -90,32 +69,25 @@ export default {
     TableColumnSelect,
     SearchComp,
     OpDialog,
-    EditDrawer
   },
   data() {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      scoreTypeList: [],
       tableData: [],
       param: {
         pageIndex: 1,
         pageSize: 50,
         orderTypeId: 0,
         orderFieldCode: "",
-        subOn: null,
-        scoreTypeName: "",
+        usergroupId: null,
+        userCode: "",
       },
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
-      stateMap: {
-        0: '待编辑',
-        1: '待发布',
-        2: '考核中',
-        10: '考核结束',
-        99: '已删除'
-      }
+      level0StructList: [],
+      level0Id: null
     };
   },
   mounted() {
@@ -146,33 +118,24 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { scoreTypeList, page } =
-        await service.getScoreTypeList(this.param);
-      this.tableData = scoreTypeList;
-      this.page = page;
+      const {level0StructList} = await service.level0List();
+      this.level0StructList = level0StructList
+      this.level0Id = level0StructList[0].id
+      const {level1StructList} = await service.addLevel2(this.level0Id);
+      this.tableData = level1StructList;
       this.listLoading = false;
-    },
-    async openDrawer(row, index) {
-      if (row.state === 0 && index === 2) {
-        return
-      }
-      if (row.state > 0 && index === 1) {
-        return
-      }
-      this.$refs.drawer.openDrawer(row)
-
     },
     async refreshData() {
       this.listLoading = true;
-      const { scoreTypeList, page } =
-        await service.getScoreTypeList(this.param);
-      this.tableData = scoreTypeList;
-      this.page = page;
+      const { level1StructList } =
+        await service.level2List(this.level0Id);
+      this.tableData = level1StructList;
       this.listLoading = false;
     },
     handleSearch(obj) {
       // 搜索内容区发生变化
       let { pageSize, orderTypeId, orderFieldCode } = this.param;
+      this.level0Id = obj.level0Id
       this.param = Object.assign({ pageIndex: 1, pageSize, orderTypeId, orderFieldCode }, obj);
       this.refreshData();
     },
@@ -202,37 +165,8 @@ export default {
         this.$message.info("已取消操作");
       });
     },
-    handleOp(row, state) {
-      let text = ''
-      if (state === 2) {
-        if (row.state !== 1) {
-          return
-        }
-        text = `确定发布${row.scoreTypeName}，一旦发布，将无法编辑考核内容，是否确定发布？`
-      } else if (state === 10) {
-        if (row.state !== 2) {
-          return
-        }
-        text = `是否确定结束${row.scoreTypeName}，一旦结束，评估人员将无法继续填写考核内容，是否确定结束？`
-      } else if (state === 99) {
-        if (row.state === 99) {
-          return
-        }
-        text = `是否确定删除${row.scoreTypeName}？`
-      }
-      this.$confirm(text, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(async () => {
-        const updateSuccess = await service.updateState(row.id, state);
-        if (updateSuccess) {
-          await this.refreshData();
-        }
-      }).catch(() => {
-        this.$message.info("已取消操作");
-      });
-
+    handleEdit(row) {
+      this.$refs.opDlg.show(row);
     },
     handleResetPwd(row) {
       this.$refs.resetPwdDlg.show(row);
@@ -293,13 +227,5 @@ export default {
   border-bottom: none;
   border-radius: 4px;
   padding-top: 4px;
-}
-
-.disabled-btn {
-  color: #AFAFAF;
-}
-
-.disabled-btn:hover {
-  cursor: not-allowed;
 }
 </style>

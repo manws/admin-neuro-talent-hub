@@ -22,6 +22,7 @@
         </div>
       </div>
       <div class="flex-style-base foot">
+        <div class="btn-add" style="margin-right: 16px;" @click="publish">发布</div>
         <div class="btn-add" @click="submit">提交</div>
       </div>
     </div>
@@ -115,15 +116,27 @@ export default {
         this.$emit("refresh");
       }
     },
+    async publish() {
+      this.$confirm(`确定发布${this.row.scoreTypeName}，一旦发布，将无法编辑考核内容，是否确定发布？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const updateSuccess = await service.updateState(this.row.id, 2);
+        if (updateSuccess) {
+          this.$emit('refresh')
+          this.closeDrawer()
+        }
+      }).catch(() => {
+        this.$message.info("已取消操作");
+      });
+    },
     async submit() {
-      console.log('121212', JSON.stringify(this.param))
       const isSuccess = await service.updateScoreStruct(this.scoreTypeId, this.param)
       if (isSuccess) {
         this.$emit('refresh')
         this.closeDrawer()
       }
-
-
     },
     close() {
 

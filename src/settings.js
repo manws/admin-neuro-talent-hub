@@ -7,7 +7,7 @@ module.exports = {
     showLang: false,
     showSize: false,
     showFullscreen: false,
-    showBreadcrumb: true,
+    showBreadcrumb: false,
     /**
      * @type {boolean} true | false
      * @description Whether show the settings right-panel

@@ -112,7 +112,7 @@ export const constantRoutes = [
             },
              {
                 path: "dict-2",
-                component: () => import("@/views/level-struct/index"),
+                component: () => import("@/views/level-struct-1/index"),
                 name: "Icons",
                 meta: { title: "考核二级字典", icon: "nested", noCache: true },
             },

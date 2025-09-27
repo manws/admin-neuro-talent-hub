@@ -12,12 +12,12 @@ body {
     text-rendering: optimizeLegibility;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 
-    -webkit-touch-callout: none;  
-    -webkit-user-select: none;  
-    -khtml-user-select: none;  
-    -moz-user-select: none;  
-    -ms-user-select: none;  
-    user-select: none; 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 label {
@@ -372,13 +372,11 @@ p {
 
 /** 调整表头的背景颜色*/
 .table-container .el-table th.el-table__cell {
-    // background-color: #ddf3ec !important;
-    background: rgb(250, 250, 250) !important;
+    background-color: #ddf3ec !important;
 }
 
 .table-container .el-table thead.is-group th.el-table__cell {
-    // background-color: #ddf3ec !important;
-    background: rgb(250, 250, 250) !important;
+    background-color: #ddf3ec !important;
 }
 
 /** 调整表的高度，通过padding来控制*/

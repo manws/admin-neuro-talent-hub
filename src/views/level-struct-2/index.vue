@@ -87,7 +87,6 @@ export default {
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
-      level0StructList: [],
       level0Id: null
     };
   },
@@ -119,12 +118,10 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { level0StructList } =
-        await service.level0List();
+      const { level0StructList } = await service.level0List();
       this.level0StructList = level0StructList
       this.level0Id = level0StructList[0].id
-      const { level2StructList } =
-        await service.level2List(this.level0Id);
+      const { level2StructList } = await service.level2List(this.level0Id);
       this.tableData = level2StructList;
       this.listLoading = false;
     },
