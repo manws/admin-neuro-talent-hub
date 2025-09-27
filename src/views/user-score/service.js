@@ -2,44 +2,59 @@ import store from "@/store"
 import { get, reject } from 'lodash'
 import { Message } from "element-ui"
 
+// 	字段：考核名称，考核人员，总评分、医疗工作评分、教学工作评分、科研工作评分、人才培养评分、公益工作评分、更新时间、更新人员。
+// 	检索字段：考核名称、考核人员。
+// 	整体操作：数据导出。
 export default {
     head: [ // 考核三级名称、考核内容、考核标准、备注、更新人员、更新时间
         {
-            fieldName: '考核一级名称',
-            fieldCode: 'level0Name',
+            fieldName: '考核名称',
+            fieldCode: 'scoreTypeName',
             align: 'center',
             value: ''
         },
          {
-            fieldName: '考核二级名称',
-            fieldCode: 'level1Name',
+            fieldName: '考核人员',
+            fieldCode: 'userName',
             align: 'center',
             value: ''
         },
          {
-            fieldName: '考核三级名称',
-            fieldCode: 'level2Name',
+            fieldName: '总评分',
+            fieldCode: 'tsAll',
             align: 'center',
             value: ''
         },
         {
-            fieldName: '考核内容',
-            fieldCode: 'level2Content',
+            fieldName: '医疗工作评分',
+            fieldCode: 'ts01',
             align: 'center',
             value: ''
         },
         {
-            fieldName: '考核标准',
-            fieldCode: 'level2Std',
+            fieldName: '教学工作评分',
+            fieldCode: 'ts02',
             align: 'center',
             value: ''
         },
-        {
-            fieldName: '备注',
-            fieldCode: 'remark',
-            align: 'center',
-            value: ''
-        },
+      {
+        fieldName: '科研工作评分',
+        fieldCode: 'ts03',
+        align: 'center',
+        value: ''
+      },
+      {
+        fieldName: '人才培养评分',
+        fieldCode: 'ts04',
+        align: 'center',
+        value: ''
+      },
+      {
+        fieldName: '公益工作评分',
+        fieldCode: 'ts05',
+        align: 'center',
+        value: ''
+      },
         {
             fieldName: '更新人员',
             fieldCode: 'updateBy',

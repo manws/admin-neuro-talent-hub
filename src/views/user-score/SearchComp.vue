@@ -1,10 +1,9 @@
 <template>
   <div class="flex-style-base fit-inut">
-    <div class="search-comp-label group-search">一级考核名称</div>
-    <el-select v-model="level0Id" class="group-search" placeholder="请选择" style="flex: 1" filterable>
-      <el-option v-for="(item, index) in level0StructList" :key="index" :label="item.level0Name"
-        :value="item.id"></el-option>
-    </el-select>
+    <div class="search-comp-label group-search">考核名称</div>
+    <el-input v-model="scoreTypeName" style="width: 180px; margin-left: 8px" placeholder="请输入" />
+    <div class="search-comp-label group-search" style="margin-left: 16px;">考核人员</div>
+    <el-input v-model="userName" style="width: 180px; margin-left: 8px" placeholder="请输入" />
 
     <div class="flex-style-base" style="margin-left: 10px">
       <!-- <div class="btn-reset" style="margin: 0 6px" @click="reset">重置</div> -->
@@ -15,35 +14,26 @@
 
 <script>
 export default {
-  props: {
-    level0StructList: {
-      type: Array,
-      default: () => [],
-    },
-  },
   data() {
     return {
-      level0Id: "",
+      scoreTypeName: "",
+      userName: ""
     };
-  },
-  watch: {
-    level0StructList(n, o) {
-      if (n && n.length > 0) {
-        this.level0Id = this.level0StructList[0].id
-      }
-    }
   },
   methods: {
     reset() {
-      this.level0Id = "";
+      this.scoreTypeName = "";
+      this.userName = "";
       let result = {
-        level0Id: this.level0Id,
+        scoreTypeName: this.scoreTypeName,
+        userName: this.userName,
       };
       this.$emit("search", result);
     },
     search() {
       let result = {
-        level0Id: this.level0Id,
+        scoreTypeName: this.scoreTypeName,
+        userName: this.userName,
       };
 
       this.$emit("search", result);

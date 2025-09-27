@@ -93,7 +93,7 @@ export const constantRoutes = [
             {
                 path: "index",
                 component: () => import("@/views/user-score/index"),
-                name: "Icons",
+                name: "userScore",
                 meta: { title: "人员考核结果", icon: "form", noCache: true },
             },
         ],
@@ -107,19 +107,19 @@ export const constantRoutes = [
             {
                 path: "dict-1",
                 component: () => import("@/views/level-struct/index"),
-                name: "Icons",
+                name: "dict1",
                 meta: { title: "考核一级字典", icon: "nested", noCache: true },
             },
              {
                 path: "dict-2",
                 component: () => import("@/views/level-struct-1/index"),
-                name: "Icons",
+                name: "dict2",
                 meta: { title: "考核二级字典", icon: "nested", noCache: true },
             },
              {
                 path: "dict-3",
                 component: () => import("@/views/level-struct-2/index"),
-                name: "Icons",
+                name: "dict3",
                 meta: { title: "考核三级字典", icon: "nested", noCache: true },
             },
         ],

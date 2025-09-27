@@ -372,11 +372,11 @@ p {
 
 /** 调整表头的背景颜色*/
 .table-container .el-table th.el-table__cell {
-    background-color: #ddf3ec !important;
+    background-color: rgba(31, 130, 255, 0.16) !important;
 }
 
 .table-container .el-table thead.is-group th.el-table__cell {
-    background-color: #ddf3ec !important;
+    background-color: rgba(31, 130, 255, 0.16) !important;
 }
 
 /** 调整表的高度，通过padding来控制*/

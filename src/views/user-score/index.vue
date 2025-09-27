@@ -1,13 +1,13 @@
-<template>
+Ï<template>
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
         <search-comp :scoreTypeList="scoreTypeList" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
-          <!-- <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
+          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
-            <span style="margin-left: 4px">新增</span>
-          </div> -->
+            <span style="margin-left: 4px">数据导出</span>
+          </div>
           <TableColumnSelect v-model="disPlayField" :columns="this.head" name="fieldName">
             <div class="btn-select">
               <i class="el-icon-s-grid"></i>
@@ -18,28 +18,23 @@
 
       <div class="table-container">
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
-          element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
-          <el-table-column label="序号" type="index" align="center" width="50"></el-table-column>
-          <!-- <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
-            <template slot-scope="scope">
-              <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" @click="handleEdit(scope.row)">编辑</div>
-                <div class="btn-text" @click="handleResetPwd(scope.row)">
-                  重置密码
-                </div>
-              </div>
-            </template>
-</el-table-column> -->
-          <el-table-column v-for="(column, index) in columns" sortable="custom" :key="index" :prop="column.fieldCode"
-            :label="column.fieldName" align="center" :minWidth="column.minWidth">
-            <template slot-scope="scope">
-              <span v-if="column.fieldCode === 'enabled'"
-                :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{
-                  scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode === 'usergroupId'">{{ scope.row.enabled === 1 ? "管理员" : "评测人员" }}</span>
-              <span v-else>{{ scope.row[column.fieldCode] }}</span>
-            </template>
-          </el-table-column>
+                  element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading"
+                  @sort-change="handleSortChange">
+          <el-table-column label="序号" type="index" align="center" width="50" fixed></el-table-column>
+          <template v-for="(column, index) in columns">
+            <el-table-column v-if="column.fieldCode === 'scoreTypeName'" sortable="custom" :prop="column.fieldCode" :label="column.fieldName" align="center"
+                             :minWidth="column.minWidth" fixed >
+              <template slot-scope="scope">
+                <span>{{ scope.row[column.fieldCode] }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column v-else sortable="custom" :prop="column.fieldCode" :label="column.fieldName" align="center"
+                             :minWidth="column.minWidth" >
+              <template slot-scope="scope">
+                <span>{{ scope.row[column.fieldCode] }}</span>
+              </template>
+            </el-table-column>
+          </template>
         </el-table>
       </div>
       <div class="flex-style-base" style="justify-content: flex-end">
@@ -62,7 +57,7 @@ import SearchComp from "./SearchComp";
 
 import service from "./service.js";
 export default {
-  name: "User",
+  name: "UserScore",
   components: {
     ComponentsContainer,
     CommonPagination,
@@ -74,21 +69,19 @@ export default {
     return {
       showAdvanceDialog: false,
       listLoading: true,
-      scoreTypeList: [],
       tableData: [],
       param: {
         pageIndex: 1,
         pageSize: 50,
         orderTypeId: 0,
         orderFieldCode: "",
-        usergroupId: null,
-        userCode: "",
+        userName: "",
+        scoreTypeName: "",
       },
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
       scoreTypeList: [],
-      level0Id: null
     };
   },
   mounted() {
@@ -133,7 +126,6 @@ export default {
     handleSearch(obj) {
       // 搜索内容区发生变化
       let { pageSize, orderTypeId, orderFieldCode } = this.param;
-      this.level0Id = obj.level0Id
       this.param = Object.assign({ pageIndex: 1, pageSize, orderTypeId, orderFieldCode }, obj);
       this.refreshData();
     },

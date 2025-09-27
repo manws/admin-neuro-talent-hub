@@ -52,7 +52,7 @@
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{ scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
               <span v-else-if="column.fieldCode.indexOf('level') === 0"
-                :style="{ color: scope.row[column.fieldCode] === 0 ? '#AFAFAF' : '#00986c' }">{{ scope.row[column.fieldCode]
+                :style="{ color: scope.row[column.fieldCode] === 0 ? '#AFAFAF' : '#0066FF' }">{{ scope.row[column.fieldCode]
                   === 1 ? "考核" : "不考核" }}</span>
               <span v-else-if="column.fieldCode === 'state'">{{ stateMap[scope.row.state] }}</span>
               <span v-else-if="column.fieldCode === 'subOn'">{{ scope.row.subOn ? scope.row.subOn : '未发布' }}</span>

@@ -19,7 +19,7 @@
                         placeholder="旧密码" name="oldPwd" tabindex="1" @focus="oldPwdFocus = true"
                         @blur="oldPwdFocus = false">
                         <svg-icon slot="prefix" icon-class="password"
-                            :color="oldPwdFocus ? 'rgba(0, 152, 108, 1)' : '#808695'" />
+                            :color="oldPwdFocus ? 'rgba(31, 130, 255, 1)' : '#808695'" />
                         <span slot="suffix" class="show-pwd" @click="showPwd">
                             <svg-icon color="#666666"
                                 :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" /></span>
@@ -29,7 +29,7 @@
                         placeholder="新密码" name="userPwd" tabindex="2" @focus="userPwdFocus = true"
                         @blur="userPwdFocus = false">
                         <svg-icon slot="prefix" icon-class="password"
-                            :color="userPwdFocus ? 'rgba(0, 152, 108, 1)' : '#808695'" />
+                            :color="userPwdFocus ? 'rgba(31, 130, 255, 1)' : '#808695'" />
                         <span slot="suffix" class="show-pwd" @click="showPwd">
                             <svg-icon color="#666666"
                                 :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" /></span>
@@ -39,7 +39,7 @@
                         placeholder="再次输入新密码" name="reuserPwd" tabindex="3" @focus="reuserPwdFocus = true"
                         @blur="reuserPwdFocus = false" @keyup.enter.native="handleLogin">
                         <svg-icon slot="prefix" icon-class="password"
-                            :color="reuserPwdFocus ? 'rgba(0, 152, 108, 1)' : '#808695'" />
+                            :color="reuserPwdFocus ? 'rgba(31, 130, 255, 1)' : '#808695'" />
                         <span slot="suffix" class="show-pwd" @click="showPwd">
                             <svg-icon color="#666666"
                                 :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" /></span>
