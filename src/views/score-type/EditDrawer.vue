@@ -1,13 +1,14 @@
 <template>
-  <el-drawer :title="row.scoreTypeName" :custom-class="'draw-container'" class="drawer-container" :visible.sync="showDrawer"
-    :size="drawerWidth" direction="rtl" :destroy-on-close="true" wrapperClosable :before-close="handleClose" @close="close">
+  <el-drawer :title="row.scoreTypeName" :custom-class="'draw-container'" class="drawer-container"
+    :visible.sync="showDrawer" :size="drawerWidth" direction="rtl" :destroy-on-close="true" wrapperClosable
+    :before-close="handleClose" @close="close">
     <div class="flex-style-column drawer-body" v-loading="bodyLoading">
       <div class="line"></div>
       <div v-if="!bodyLoading" class="content">
         <template v-for="(item, index) in level0StructList">
           <div v-if="row['level' + item.id] === 1">
             <div class="item-name">{{ item.level0Name }}</div>
-            <el-checkbox-group v-model="param[item.id]">
+            <el-checkbox-group v-model="param[item.id]" :disabled="state != 0">
               <el-checkbox v-for="(dict, dictIndex) in level2AllDict[item.id]" :key="dictIndex" :label="dict.level2Code"
                 style="margin-top: 6px; display: block;">
                 {{ dict.level2Code }}.{{ dict.level2Name }}
@@ -21,9 +22,9 @@
           <span style="height: 1px; background-color: #cdcdcd; width: 30px"></span>
         </div>
       </div>
-      <div class="flex-style-base foot">
-        <div class="btn-add" style="margin-right: 16px;" @click="publish">发布</div>
-        <div class="btn-add" @click="submit">提交</div>
+      <div v-if="state < 2" class="flex-style-base foot">
+        <div v-if="state === 1" class="btn-add" @click="publish">发布</div>
+        <div v-if="state === 0" class="btn-add" @click="submit">提交</div>
       </div>
     </div>
 
@@ -50,8 +51,8 @@ export default {
       level2AllDict: {},
       scoreStructDict: {},
       param: {},
-      row: {}
-
+      row: {},
+      state: 0
     };
   },
   computed: {
@@ -73,6 +74,7 @@ export default {
 
     },
     async openDrawer(row) {
+      this.state = row.state
       this.row = row
       this.scoreTypeId = row.id
       this.resetData();
@@ -132,6 +134,16 @@ export default {
       });
     },
     async submit() {
+      for (let i = 0; i < this.level0StructList.length; i++) {
+        let item = this.level0StructList[i]
+        const levelId = 'level' + item.id;
+        if (this.row[levelId] === 1 && this.param[item.id].length == 0) {
+          this.$message.warning(`${item.level0Name}没有选择`);
+          return
+        }
+      }
+      return
+
       const isSuccess = await service.updateScoreStruct(this.scoreTypeId, this.param)
       if (isSuccess) {
         this.$emit('refresh')
