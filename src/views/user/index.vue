@@ -36,7 +36,7 @@
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{
                   scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode === 'usergroupId'">{{ scope.row.enabled === 1 ? "管理员" : "评测人员" }}</span>
+              <span v-else-if="column.fieldCode === 'usergroupId'">{{ scope.row.usergroupId === 1 ? "管理员" : (scope.row.usergroupId === 2 ? "管理+评测" : "评测人员") }}</span>
               <span v-else>{{ scope.row[column.fieldCode] }}</span>
             </template>
           </el-table-column>
@@ -86,6 +86,10 @@ export default {
         },
         {
           usergroupId: 2,
+          usergroupName: '管理+评测'
+        },
+        {
+          usergroupId: 3,
           usergroupName: '评测人员'
         }
 

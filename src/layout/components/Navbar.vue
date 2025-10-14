@@ -5,7 +5,8 @@
 
     <breadcrumb v-if="$store.getters.settings.showBreadcrumb" id="breadcrumb-container" class="breadcrumb-container" />
 
-    <h4 class="title">{{ $store.getters.settings.title }}</h4>
+    <h4 class="title"></h4>
+<!--    {{ $store.getters.settings.title }}-->
 
     <div class="right-menu flex-style-base">
       <template v-if="device !== 'mobile'">
@@ -95,7 +96,7 @@ export default {
   height: var(--global-headerHeight);
   overflow: hidden;
   position: relative;
-  background: $jbPrimaryTextColor;
+  background: #009ADF;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   align-items: center;
 

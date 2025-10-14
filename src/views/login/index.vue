@@ -1,12 +1,13 @@
 <template>
   <div class="flex-style-base login-container">
     <div class="flex-style-base company-layout">
-      <img :src="logo" style="height: 3.3125rem; width: 12.625rem" />
+      <img :src="logo" style="height: 5rem; width: 5rem" />
+      <span class="company-text">宣武医院神经内科</span>
     </div>
 
     <div class="login-body">
-      <div class="flex-style-base company-bg" style="position: relative;">
-        <div class="flex-style-column" style="z-index: 100;position: relative;align-items: center;">
+      <div class="flex-style-base company-bg" style="position: relative;align-items: flex-start">
+        <div class="flex-style-base" style="z-index: 100;position: relative;">
           <div class="system-text">宣海人才考核平台</div>
         </div>
         <img :src="companyBg" class="preview-img" />
@@ -16,13 +17,13 @@
           <div class="login-text">用户登录</div>
           <el-input ref="userCode" v-model="userCode" class="input" placeholder="请输入账号" name="userCode" type="text"
             tabindex="1" autocomplete="on" @focus="userCodeFocus = true" @blur="userCodeFocus = false">
-            <icon-font slot="prefix" icon="user" :color="userCodeFocus ? 'rgba(64, 158, 255, 1)' : '#808695'" />
+            <icon-font slot="prefix" icon="user" :color="userCodeFocus ? 'rgba(0, 102, 255, 1)' : '#808695'" />
           </el-input>
 
           <el-input :key="passwordType" ref="userPwd" v-model="userPwd" class="input" :type="passwordType"
             placeholder="请输入密码" name="userPwd" tabindex="2" autocomplete="new-password" @focus="userPwdFocus = true"
             @blur="userPwdFocus = false" @keyup.enter.native="handleLogin">
-            <icon-font slot="prefix" icon="lock" :color="userPwdFocus ? 'rgba(64, 158, 255, 1)' : '#808695'" />
+            <icon-font slot="prefix" icon="lock" :color="userPwdFocus ? 'rgba(0, 102, 255, 1)' : '#808695'" />
             <span slot="suffix" class="show-pwd" @click="showPwd">
               <icon-font color="#666666" :icon="passwordType === 'password' ? 'hide' : 'browse'" />
             </span>
@@ -44,7 +45,7 @@ export default {
   data() {
     return {
       title,
-      logo: require("@/assets/images/company-logo.png"),
+      logo: require("@/assets/images/logo.png"),
       companyBg: require("@/assets/images/company-bg.png"),
       userCodeFocus: false,
       userPwdFocus: false,
@@ -87,7 +88,7 @@ export default {
       const loginSuccess = await this.service.login(param);
       if (loginSuccess) {
         this.$router.push({
-          path: "/score-type",
+          path: "/dashboard",
         });
       }
       this.loading = false;
@@ -146,12 +147,24 @@ export default {
     top: 0;
   }
 
-  .system-text {
+  .company-text {
     font-family: PingFangSC-Medium;
-    font-size: 44px;
-    color: #333333;
+    font-size: 28px;
+    color: #FFFFFF;
     letter-spacing: 0;
     font-weight: 500;
+    margin-left: 16px;
+  }
+
+  .system-text {
+    font-family: PingFangSC-Medium;
+    letter-spacing: 0;
+    font-size: 36px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-shadow: 0 2px 6px #00327D;
+    font-weight: 600;
+    margin-top: 31px;
   }
 
   .login-text {

@@ -1,51 +1,58 @@
 <template>
-  <el-dialog :title="isNew ? '新增考核' : '编辑考核'" :visible.sync="dialogVisible" width="600px" :close-on-click-modal="false">
-    <div class="flex-style-base fit-inut">
-      <span class="red-dot">*</span>
+  <el-dialog :title="isNew ? '新增考核' : '编辑考核'" :visible.sync="dialogVisible" width="600px"
+             :close-on-click-modal="false">
+    <div class="flex-style-base">
+      <div class="title-flag"></div>
+      <span class="title">考核名称</span>
+    </div>
+    <div class="flex-style-column fit-inut">
       <div class="search-comp-label">考核名称</div>
-      <el-input v-model="scoreTypeName" class="input-style" placeholder="请输入" />
+      <el-input v-model="scoreTypeName" class="input-style" placeholder="请输入"/>
     </div>
 
-    <div>
-      <div class="label-text">考核内容</div>
-      <div class="flex-style-base fit-inut" style="margin-top: 16px">
-        <span class="red-dot" style="color: transparent;">*</span>
-        <div class="search-comp-label">医疗工作</div>
-        <el-radio-group v-model="level1" style="flex: 1">
-          <el-radio :label="1">考核 </el-radio>
-          <el-radio :label="0">不考核</el-radio>
-        </el-radio-group>
+    <div style="margin-top: 24px;">
+      <div class="flex-style-base">
+        <div class="title-flag"></div>
+        <span class="title">考核内容</span>
       </div>
 
-      <div class="flex-style-base fit-inut" style="margin-top: 16px">
-        <span class="red-dot" style="color: transparent;">*</span>
-        <div class="search-comp-label">教学工作</div>
-        <el-radio-group v-model="level2" style="flex: 1">
-          <el-radio :label="1">考核 </el-radio>
-          <el-radio :label="0">不考核</el-radio>
-        </el-radio-group>
+      <div class="flex-style-base">
+        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
+          <div class="search-comp-label">医疗工作</div>
+          <el-radio-group v-model="level1" style="flex: 1">
+            <el-radio :label="1">考核</el-radio>
+            <el-radio :label="0">不考核</el-radio>
+          </el-radio-group>
+        </div>
+
+        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
+          <div class="search-comp-label">教学工作</div>
+          <el-radio-group v-model="level2" style="flex: 1">
+            <el-radio :label="1">考核</el-radio>
+            <el-radio :label="0">不考核</el-radio>
+          </el-radio-group>
+        </div>
       </div>
 
-      <div class="flex-style-base fit-inut" style="margin-top: 16px">
-        <span class="red-dot" style="color: transparent;">*</span>
-        <div class="search-comp-label">科研工作</div>
-        <el-radio-group v-model="level3" style="flex: 1">
-          <el-radio :label="1">考核 </el-radio>
-          <el-radio :label="0">不考核</el-radio>
-        </el-radio-group>
+      <div class="flex-style-base">
+        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
+          <div class="search-comp-label">科研工作</div>
+          <el-radio-group v-model="level3" style="flex: 1">
+            <el-radio :label="1">考核</el-radio>
+            <el-radio :label="0">不考核</el-radio>
+          </el-radio-group>
+        </div>
+
+        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
+          <div class="search-comp-label">人才培养</div>
+          <el-radio-group v-model="level4" style="flex: 1">
+            <el-radio :label="1">考核</el-radio>
+            <el-radio :label="0">不考核</el-radio>
+          </el-radio-group>
+        </div>
       </div>
 
-      <div class="flex-style-base fit-inut" style="margin-top: 16px">
-        <span class="red-dot" style="color: transparent;">*</span>
-        <div class="search-comp-label">人才培养</div>
-        <el-radio-group v-model="level4" style="flex: 1">
-          <el-radio :label="1">考核 </el-radio>
-          <el-radio :label="0">不考核</el-radio>
-        </el-radio-group>
-      </div>
-
-      <div class="flex-style-base fit-inut" style="margin-top: 16px">
-        <span class="red-dot" style="color: transparent;">*</span>
+      <div class="flex-style-column fit-inut" style="margin-top: 16px">
         <div class="search-comp-label">公益工作</div>
         <el-radio-group v-model="level5" style="flex: 1">
           <el-radio :label="1">考核</el-radio>
@@ -53,11 +60,15 @@
         </el-radio-group>
       </div>
     </div>
+    <div class="flex-style-base" style="margin-top: 24px;">
+      <div class="title-flag"></div>
+      <span class="title">考核时间</span>
+    </div>
     <div class="flex-style-base fit-inut" style="margin-top: 16px;">
-      <span class="red-dot">*</span>
       <div class="search-comp-label">结束时间</div>
-      <el-date-picker v-model="endOn" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" class="input-style date-picker-disabled"
-        type="datetime" placeholder="请选择结束日期">
+      <el-date-picker v-model="endOn" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
+                      class="input-style date-picker-disabled"
+                      type="datetime" placeholder="请选择结束日期">
       </el-date-picker>
     </div>
 
@@ -72,13 +83,15 @@
 </template>
 
 <script>
-import { isMobile, isEmail } from "@/utils/tools";
+import {isMobile, isEmail} from "@/utils/tools";
 import service from "./service.js";
+
 export default {
   props: {
     stateMap: {
       type: Object,
-      default: () => { },
+      default: () => {
+      },
     },
   },
   mounted() {
@@ -206,24 +219,23 @@ export default {
 }
 
 .input-style {
-  width: 0;
+  width: 452px;
   flex: 1;
 }
 
 .search-comp-label {
-  width: 80px;
-  text-align: justify;
-  text-align-last: justify;
+  font-family: PingFangSC-Regular;
   font-size: 14px;
   color: #333333;
-  margin-right: 16px;
+  letter-spacing: 0;
+  font-weight: 400;
+  height: 40px;
+  line-height: 40px;
 }
 
 .label-text {
   margin-top: 18px;
   width: 80px;
-  text-align: justify;
-  text-align-last: justify;
   font-size: 14px;
   color: #333333;
   margin-right: 16px;
@@ -231,5 +243,12 @@ export default {
 
 .date-picker-disabled:hover {
   cursor: not-allowed;
+}
+
+.title {
+  font-size: 16px;
+  color: #333333;
+  line-height: 26px;
+  font-weight: 500;
 }
 </style>

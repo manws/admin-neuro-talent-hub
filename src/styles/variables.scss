@@ -13,11 +13,11 @@ $menuText:#ffffff;
 $menuActiveText:#BFBFBF;
 $subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
 
-$menuBg:#0066FF;
-$menuHover:#5B9DFF;
+$menuBg:#00549C;
+$menuHover:rgba(255,255,255,0.15);
 
-$subMenuBg:#1F82FF;
-$subMenuHover:#0066FF;
+$subMenuBg:#009ADF;
+$subMenuHover:rgba(255,255,255,0.15);
 $sideBarWidth: 210px;
 $headerHeight: 56px;
 
@@ -26,10 +26,10 @@ $headerHeight: 56px;
     --global-primaryColor: #0066FF;
 }
 
-$jbPrimaryColor: #0066FF;
-$jbPrimaryBtnBgColor: rgba(31, 130, 255, 0.8);
-$jbSubPrimaryColor: #5B9DFF;
-$jbPrimaryTextColor: #1F82FF;
+$jbPrimaryColor: #00549C;
+$jbPrimaryBtnBgColor: rgba(0, 84, 156, 0.8);
+$jbSubPrimaryColor: rgba(91, 157, 255, 1);
+$jbPrimaryTextColor: rgba(31, 130, 255, 1);
 $jbPrimaryTextHoverColor: rgba(31, 130, 255, 0.25);
 $jbPrimaryTableHeaderColor: rgba(31, 130, 255, 0.16);
 

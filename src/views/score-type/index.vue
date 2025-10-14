@@ -51,10 +51,16 @@
             <template slot-scope="scope">
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{ scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode.indexOf('level') === 0"
-                :style="{ color: scope.row[column.fieldCode] === 0 ? '#AFAFAF' : '#0066FF' }">{{ scope.row[column.fieldCode]
+              <span v-else-if="column.fieldCode.indexOf('level') === 0">{{ scope.row[column.fieldCode]
                   === 1 ? "考核" : "不考核" }}</span>
-              <span v-else-if="column.fieldCode === 'state'">{{ stateMap[scope.row.state] }}</span>
+              <div v-else-if="column.fieldCode === 'state'" class="flex-style-base" style="justify-content: center;">
+                <div v-if="scope.row.state === 0" class="dot-1"></div>
+                <div v-if="scope.row.state === 1" class="dot-2"></div>
+                <div v-if="scope.row.state === 2" class="dot-3"></div>
+                <div v-if="scope.row.state === 10" class="dot-4"></div>
+                <div v-if="scope.row.state === 99" class="dot-5"></div>
+                <span style="margin-left: 6px;">{{ stateMap[scope.row.state] }}</span>
+              </div>
               <span v-else-if="column.fieldCode === 'subOn'">{{ scope.row.subOn ? scope.row.subOn : '未发布' }}</span>
               <span v-else>{{ scope.row[column.fieldCode] }}</span>
             </template>
@@ -301,5 +307,40 @@ export default {
 
 .disabled-btn:hover {
   cursor: not-allowed;
+}
+
+.dot-1 {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #999999;
+}
+
+.dot-2 {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #DE6F38;
+}
+
+.dot-3 {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #006FFE;
+}
+
+.dot-4 {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #66FF00;
+}
+
+.dot-5 {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #FF3B30;
 }
 </style>

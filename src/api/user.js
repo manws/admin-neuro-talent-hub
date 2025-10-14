@@ -3,7 +3,7 @@ import store from "@/store"
 
 export function login(data) {
     return request({
-        url: "/api/v2/User/login",
+        url: "/api/v2/User/login/pc",
         method: "post",
         data,
     })

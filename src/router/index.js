@@ -75,13 +75,25 @@ export const constantRoutes = [
     {
         path: "/",
         component: Layout,
-        redirect: "/score-type",
+        redirect: "/dashboard",
         children: [
             {
-                path: "score-type",
+                path: "dashboard",
+                component: () => import("@/views/dashboard/index"),
+                name: "dashboard",
+                meta: { title: "首页", icon: "menu-dashboard", affix: true },
+            },
+        ],
+    },
+    {
+        path: "/score-type",
+        component: Layout,
+        children: [
+            {
+                path: "index",
                 component: () => import("@/views/score-type/index"),
                 name: "ScoreType",
-                meta: { title: "考核信息管理", icon: "menu-dashboard", affix: true },
+                meta: { title: "考核信息管理", icon: "tree-table" },
             },
         ],
     },
