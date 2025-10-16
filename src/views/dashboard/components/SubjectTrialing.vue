@@ -72,9 +72,9 @@ export default {
         // 这里假设 dMin=最小值, dAvg=Q1, dMid=中位数, dMax=Q3和最大值
         return [
           item.dMin,           // 最小值
-          item.dAvg,           // Q1 (第一四分位数)
+          item.dQ1_4,           // Q1 (第一四分位数)
           item.dMid,           // 中位数
-          (item.dMax + item.dAvg) / 2,  // Q3 (第三四分位数)
+          item.dQ3_4,  // Q3 (第三四分位数)
           item.dMax            // 最大值
         ];
       });
@@ -102,11 +102,11 @@ export default {
           formatter: function (param) {
             return [
               '类别: ' + param.name,
-              '最大值: ' + param.data[5],
-              'Q3: ' + param.data[4],
-              '中位数: ' + param.data[3],
-              'Q1: ' + param.data[2],
-              '最小值: ' + param.data[1]
+              '最大值: ' + param.data.value[5],
+              'Q3: ' + param.data.value[4],
+              '中位数: ' + param.data.value[3],
+              'Q1: ' + param.data.value[2],
+              '最小值: ' + param.data.value[1]
             ].join('<br/>');
           },
         },

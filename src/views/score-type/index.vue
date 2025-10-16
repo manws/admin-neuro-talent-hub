@@ -23,7 +23,7 @@
           <el-table-column prop="operation" label="记录操作" align="center" width="160" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" :class="[scope.row.state === 0 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 1)">编辑考核</div>
+                <div class="btn-text" :class="[scope.row.state < 2 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 1)">编辑考核</div>
                 <div class="btn-text" :class="[scope.row.state > 0 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 2)">查看考核</div>
               </div>
             </template>
@@ -162,10 +162,11 @@ export default {
       if (row.state === 0 && index === 2) {
         return
       }
-      if (row.state > 0 && index === 1) {
+
+      if (row.state > 1 && index === 1) {
         return
       }
-      this.$refs.drawer.openDrawer(row)
+      this.$refs.drawer.openDrawer(row, index === 1)
 
     },
     async refreshData() {

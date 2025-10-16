@@ -1,7 +1,7 @@
 <template>
   <components-container bodyColor="#ECF2F8" cardBgColor="#ECF2F8" :isScroll="false">
     <div style="background-color: #FFFFFF;padding: 16px;">
-      <count @refresh="initData"></count>
+      <count @refresh="initData" :nJoinScoreCount="nJoinScoreCount" :nScoreTotalCount="nScoreTotalCount" :nNoJoinSocreCount="nNoJoinSocreCount" :state="state"></count>
 
       <el-row :gutter="16" style="margin-top: 16px;background-color: #FFFFFF;">
         <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12" >
@@ -60,6 +60,10 @@ export default {
       level0s3RankList: [],
       level0s4RankList: [],
       level0s5RankList: [],
+      nScoreTotalCount: 0,
+      nJoinScoreCount: 0,
+      nNoJoinSocreCount: 0,
+      state: -1,
 
       nCRFRecord: 0,
       nCRFTotal: 0,
@@ -102,7 +106,11 @@ export default {
         level0s2RankList,
         level0s3RankList,
         level0s4RankList,
-        level0s5RankList
+        level0s5RankList,
+        nScoreTotalCount,
+        nJoinScoreCount,
+        nNoJoinSocreCount,
+        state
       } = await service.dashboard(scoreTypeId);
       this.level0s1RankList = level0s1RankList
       this.level0s2RankList = level0s2RankList
@@ -110,47 +118,18 @@ export default {
       this.level0s4RankList = level0s4RankList
       this.level0s5RankList = level0s5RankList
 
+      this.nScoreTotalCount = nScoreTotalCount
+      this.nJoinScoreCount = nJoinScoreCount
+      this.nNoJoinSocreCount = nNoJoinSocreCount
+      this.state = state
+
       joinCountList.forEach((item, index) => {
         this.subjectIncreMonthList.push({
           "month": dateList[index],
           "data": item
         })
       })
-      // this.level0StatisList = level0StatisList
-      this.level0StatisList = [
-        {
-          "dMin": 15,
-          "dMax": 25,
-          "dMid": 21,
-          "dAvg": 22
-        },
-        {
-          "dMin": 10,
-          "dMax": 100,
-          "dMid": 50,
-          "dAvg": 55
-        },
-        {
-          "dMin": 12.8,
-          "dMax": 32.8,
-          "dMid": 22.8,
-          "dAvg": 22.8
-        },
-        {
-          "dMin": 45.3,
-          "dMax": 145.3,
-          "dMid": 95.3,
-          "dAvg": 85.3
-        },
-        {
-          "dMin": 10.5,
-          "dMax": 100.5,
-          "dMid": 60.5,
-          "dAvg": 50.5
-        }
-      ]
-
-
+      this.level0StatisList = level0StatisList
     },
   },
 };

@@ -119,7 +119,7 @@ export default {
           //   ...echartConfig.barSeries,
           // },
           {
-            name: "受试者数",
+            name: "考核人数",
             itemStyle: {
               normal: {
                 color: "#0066FF",

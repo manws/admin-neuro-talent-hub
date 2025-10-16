@@ -8,7 +8,7 @@
         <template v-for="(item, index) in level0StructList">
           <div v-if="row['level' + item.id] === 1">
             <div class="item-name">{{ item.level0Name }}</div>
-            <el-checkbox-group v-model="param[item.id]" :disabled="state != 0">
+            <el-checkbox-group v-model="param[item.id]" :disabled="!isEdit">
               <el-checkbox v-for="(dict, dictIndex) in level2AllDict[item.id]" :key="dictIndex" :label="dict.level2Code"
                 style="margin-top: 6px; display: block;">
                 {{ dict.level2Code }}.{{ dict.level2Name }}
@@ -23,8 +23,8 @@
         </div>
       </div>
       <div v-if="state < 2" class="flex-style-base foot">
-        <div v-if="state === 1" class="btn-add" @click="publish">发布</div>
-        <div v-if="state === 0" class="btn-add" @click="submit">提交</div>
+        <div v-if="!isEdit && state === 1" class="btn-add" @click="publish">发布</div>
+        <div v-if="isEdit" class="btn-add" @click="submit">提交</div>
       </div>
     </div>
 
@@ -52,7 +52,8 @@ export default {
       scoreStructDict: {},
       param: {},
       row: {},
-      state: 0
+      state: 0,
+      isEdit: false
     };
   },
   computed: {
@@ -73,9 +74,10 @@ export default {
       this.loadingFail = false;
 
     },
-    async openDrawer(row) {
+    async openDrawer(row, isEdit) {
       this.state = row.state
       this.row = row
+      this.isEdit = isEdit
       this.scoreTypeId = row.id
       this.resetData();
       this.showDrawer = true;
@@ -142,8 +144,6 @@ export default {
           return
         }
       }
-      return
-
       const isSuccess = await service.updateScoreStruct(this.scoreTypeId, this.param)
       if (isSuccess) {
         this.$emit('refresh')

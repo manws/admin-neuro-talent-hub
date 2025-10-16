@@ -13,10 +13,12 @@
 
       <div v-for="(item, index) in level0s1RankList" class="flex-style-base rank-item"
            :class="{'rank-item-1' : (index === 0), 'rank-item-2' : (index === 1), 'rank-item-3' : (index === 2)}">
-        <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png" />
-        <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png" />
-        <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png" />
-        <span v-if="index > 2" class="rank-text" >{{ index + 1 }}</span>
+        <div v-if="index < 3" class="flex-style-base rank-text">
+          <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png"/>
+          <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png"/>
+          <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png"/>
+        </div>
+        <span v-if="index > 2" class="rank-text">{{ index + 1 }}</span>
         <span class="name-text">{{ item.strName }}</span>
         <span class="score-text">{{ item.score }}</span>
       </div>
@@ -35,12 +37,14 @@
         <span class="score-text rank-label">分数</span>
       </div>
 
-      <div v-for="(item, index) in level0s2RankList"  class="flex-style-base rank-item"
+      <div v-for="(item, index) in level0s2RankList" class="flex-style-base rank-item"
            :class="{'rank-item-1' : (index === 0), 'rank-item-2' : (index === 1), 'rank-item-3' : (index === 2)}">
-        <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png" />
-        <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png" />
-        <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png" />
-        <span v-if="index > 2" class="rank-text" >{{ index + 1 }}</span>
+        <div v-if="index < 3" class="flex-style-base rank-text">
+          <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png"/>
+          <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png"/>
+          <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png"/>
+        </div>
+        <span v-if="index > 2" class="rank-text">{{ index + 1 }}</span>
         <span class="name-text">{{ item.strName }}</span>
         <span class="score-text">{{ item.score }}</span>
       </div>
@@ -59,12 +63,14 @@
         <span class="score-text rank-label">分数</span>
       </div>
 
-      <div v-for="(item, index) in level0s3RankList"  class="flex-style-base rank-item"
+      <div v-for="(item, index) in level0s3RankList" class="flex-style-base rank-item"
            :class="{'rank-item-1' : (index === 0), 'rank-item-2' : (index === 1), 'rank-item-3' : (index === 2)}">
-        <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png" />
-        <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png" />
-        <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png" />
-        <span v-if="index > 2" class="rank-text" >{{ index + 1 }}</span>
+        <div v-if="index < 3" class="flex-style-base rank-text">
+          <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png"/>
+          <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png"/>
+          <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png"/>
+        </div>
+        <span v-if="index > 2" class="rank-text">{{ index + 1 }}</span>
         <span class="name-text">{{ item.strName }}</span>
         <span class="score-text">{{ item.score }}</span>
       </div>
@@ -83,12 +89,14 @@
         <span class="score-text rank-label">分数</span>
       </div>
 
-      <div v-for="(item, index) in level0s4RankList"  class="flex-style-base rank-item"
+      <div v-for="(item, index) in level0s4RankList" class="flex-style-base rank-item"
            :class="{'rank-item-1' : (index === 0), 'rank-item-2' : (index === 1), 'rank-item-3' : (index === 2)}">
-        <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png" />
-        <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png" />
-        <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png" />
-        <span v-if="index > 2" class="rank-text" >{{ index + 1 }}</span>
+        <div v-if="index < 3" class="flex-style-base rank-text">
+          <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png"/>
+          <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png"/>
+          <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png"/>
+        </div>
+        <span v-if="index > 2" class="rank-text">{{ index + 1 }}</span>
         <span class="name-text">{{ item.strName }}</span>
         <span class="score-text">{{ item.score }}</span>
       </div>
@@ -107,12 +115,14 @@
         <span class="score-text rank-label">分数</span>
       </div>
 
-      <div v-for="(item, index) in level0s5RankList"  class="flex-style-base rank-item"
+      <div v-for="(item, index) in level0s5RankList" class="flex-style-base rank-item"
            :class="{'rank-item-1' : (index === 0), 'rank-item-2' : (index === 1), 'rank-item-3' : (index === 2)}">
-        <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png" />
-        <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png" />
-        <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png" />
-        <span v-if="index > 2" class="rank-text" >{{ index + 1 }}</span>
+        <div v-if="index < 3" class="flex-style-base rank-text">
+          <img v-if="index === 0" style="width: 32px;height: 32px;" src="../../../assets/images/rank-1.png"/>
+          <img v-if="index === 1" style="width: 32px;height: 32px;" src="../../../assets/images/rank-2.png"/>
+          <img v-if="index === 2" style="width: 32px;height: 32px;" src="../../../assets/images/rank-3.png"/>
+        </div>
+        <span v-if="index > 2" class="rank-text">{{ index + 1 }}</span>
         <span class="name-text">{{ item.strName }}</span>
         <span class="score-text">{{ item.score }}</span>
       </div>
@@ -234,13 +244,14 @@ export default {
 }
 
 .rank-text {
-  width: 40px;
+  width: 60px;
   font-family: PingFangSC-Regular;
   font-size: 12px;
   color: #333333;
   line-height: 16px;
   font-weight: 400;
   text-align: center;
+  justify-content: center;
 }
 
 .name-text {

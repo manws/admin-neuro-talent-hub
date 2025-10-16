@@ -40,36 +40,36 @@
           <div class="flex-style-base" style="margin-top: 13px; justify-content: space-around;">
             <div class="flex-style-column score-class-1">
               <img class="score-class-2" src="../../assets/images/score-state-1.png"/>
-              <span class="score-state-text" style="z-index: 100;">{{ stateMap[state] }}</span>
+              <span class="score-state-text z-index-1">{{ stateMap[state] }}</span>
             </div>
             <div style="width: 8px;"></div>
             <div class="flex-style-column score-class-1">
               <img class="score-class-2" src="../../assets/images/score-state-2.png"/>
-              <div class="flex-style-column" style="z-index: 100;justify-content: center;align-items: center;">
+              <div class="flex-style-column z-index-1" style="justify-content: center;align-items: center;">
                 <span class="num-text" style="color: #0066FF">{{
-                    nJoinScoreCount
+                    nScoreTotalCount
                   }}</span>
-                <span class="score-bottom-text">考核人数</span>
+                <span class="score-bottom-text">考核总人数</span>
               </div>
             </div>
             <div style="width: 8px;"></div>
             <div class="flex-style-column score-class-1">
               <img class="score-class-2" src="../../assets/images/score-state-3.png"/>
-              <div class="flex-style-column" style="z-index: 100;justify-content: center;align-items: center;">
+              <div class="flex-style-column z-index-1" style="justify-content: center;align-items: center;">
               <span class="num-text" style="color: #E5504F;">{{
-                  nNoJoinSocreCount
+                  nJoinScoreCount
                 }}</span>
-                <span class="score-bottom-text">未考核人数</span>
+                <span class="score-bottom-text">已考核人数</span>
               </div>
             </div>
             <div style="width: 8px;"></div>
             <div class="flex-style-column score-class-1">
               <img class="score-class-2" src="../../assets/images/score-state-4.png"/>
-              <div class="flex-style-column" style="z-index: 100;justify-content: center;align-items: center;">
+              <div class="flex-style-column z-index-1" style="justify-content: center;align-items: center;">
               <span class="num-text" style="color: #0CA85A;">{{
                   nNoJoinSocreCount
                 }}</span>
-                <span class="score-bottom-text">7天考核人数</span>
+                <span class="score-bottom-text">未考核人数</span>
               </div>
             </div>
           </div>
@@ -86,6 +86,10 @@ import moment from "moment";
 export default {
   name: "DashboardCount",
   props: {
+    nScoreTotalCount: {
+      type: Number,
+      default: 0,
+    },
     nJoinScoreCount: {
       type: Number,
       default: 0,
@@ -95,8 +99,8 @@ export default {
       default: 0,
     },
     state: {
-      type: Number,
-      default: 0,
+      type: [Number, String],
+      default: '-1',
     },
   },
   data() {
@@ -104,11 +108,12 @@ export default {
       scoreTime: moment().format("YYYY-MM-DD"),
       scoreNameIcon: require('@/assets/images/score-name-icon.svg'),
       stateMap: {
-        0: '待编辑',
-        1: '待发布',
-        2: '考核中',
-        10: '考核结束',
-        99: '已删除'
+        '-1': '',
+        '0': '待编辑',
+        '1': '待发布',
+        '2': '考核中',
+        '10': '考核结束',
+        '99': '已删除'
       },
 
       showRemindDlg: false,
@@ -256,6 +261,10 @@ export default {
   position: absolute;
   height: 102px;
   width: 100%;
+}
+
+.z-index-1 {
+  z-index: 1;
 }
 
 .score-date-text {
