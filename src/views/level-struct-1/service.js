@@ -80,7 +80,4 @@ export default {
     return { level1StructList: [] };
 
   }
-
-
-    //LevelStruct/level2List/1
 }

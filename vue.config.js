@@ -6,7 +6,7 @@ const BASE_URL = process.env.NODE_ENV === "production" ? "./" : ""
 const proxyHost = 'http://39.97.242.35:11032/'
 
 module.exports = {
-    outputDir: "dist",
+    outputDir: "admin-neuro-talent-hub",
     publicPath: "",
     indexPath: "./index.html",
 

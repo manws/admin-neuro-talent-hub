@@ -1,12 +1,12 @@
 <template>
   <div class="flex-style-base fit-inut">
     <div class="search-comp-label group-search">考核名称</div>
-    <el-input v-model="scoreTypeName" style="width: 180px; margin-left: 8px" placeholder="请输入" />
+    <el-input v-model="scoreTypeName" style="width: 180px; margin-left: 8px" placeholder="请输入" clearable />
     <div class="search-comp-label group-search" style="margin-left: 16px;">考核人员</div>
-    <el-input v-model="userName" style="width: 180px; margin-left: 8px" placeholder="请输入" />
+    <el-input v-model="userName" style="width: 180px; margin-left: 8px" placeholder="请输入" clearable />
 
     <div class="flex-style-base" style="margin-left: 10px">
-      <!-- <div class="btn-reset" style="margin: 0 6px" @click="reset">重置</div> -->
+       <div class="btn-reset" style="margin: 0 6px" @click="reset">重置</div>
       <div class="btn-search" style="margin: 0 6px" @click="search">检索</div>
     </div>
   </div>

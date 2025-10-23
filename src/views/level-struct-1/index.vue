@@ -128,7 +128,7 @@ export default {
     async refreshData() {
       this.listLoading = true;
       const { level1StructList } =
-        await service.level2List(this.level0Id);
+        await service.addLevel2(this.level0Id);
       this.tableData = level1StructList;
       this.listLoading = false;
     },

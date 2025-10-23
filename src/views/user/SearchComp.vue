@@ -1,7 +1,7 @@
 <template>
   <div class="flex-style-base fit-inut">
     <div class="search-comp-label" style="margin-left: 16px">账户</div>
-    <el-input v-model="userCode" style="width: 180px; margin-left: 8px" placeholder="请输入" />
+    <el-input v-model="userCode" style="width: 180px; margin-left: 8px" placeholder="请输入" clearable />
     <div class="search-comp-label group-search" style="margin-left: 16px">权限</div>
     <el-select v-model="usergroupId" class="group-search" placeholder="请选择" style="flex: 1" filterable clearable>
       <el-option v-for="(item, index) in usergroupList" :key="index" :label="item.usergroupName"

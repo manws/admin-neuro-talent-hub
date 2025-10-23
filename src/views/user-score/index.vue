@@ -4,7 +4,7 @@
       <div class="flex-style-base header-container">
         <search-comp :scoreTypeList="scoreTypeList" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
-          <div class="btn-add" @click="handleAdd" style="margin: 0 6px">
+          <div class="btn-add" @click="handleExport" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
             <span style="margin-left: 4px">数据导出</span>
           </div>
@@ -141,16 +141,13 @@ export default {
       this.param.pageIndex = val;
       this.refreshData();
     },
-    handleAdd() {
-      this.$refs.opDlg.show();
-    },
     handleExport() {
       this.$confirm("是否确定导出当前内容？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(async () => {
-        await this.service.userExport();
+        // await this.service.scoreExport();
       }).catch(() => {
         this.$message.info("已取消操作");
       });
