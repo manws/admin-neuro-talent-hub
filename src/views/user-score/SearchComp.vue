@@ -1,7 +1,10 @@
 <template>
   <div class="flex-style-base fit-inut">
     <div class="search-comp-label group-search">考核名称</div>
-    <el-input v-model="scoreTypeName" style="width: 180px; margin-left: 8px" placeholder="请输入" clearable />
+    <el-select v-model="scoreTypeId" class="group-search" placeholder="请选择" style="flex: 1" filterable clearable>
+      <el-option v-for="(item, index) in scoreTypeList" :key="index" :label="item.scoreTypeName"
+                 :value="item.id"></el-option>
+    </el-select>
     <div class="search-comp-label group-search" style="margin-left: 16px;">考核人员</div>
     <el-input v-model="userName" style="width: 180px; margin-left: 8px" placeholder="请输入" clearable />
 
@@ -14,25 +17,44 @@
 
 <script>
 export default {
+  props: {
+    scoreTypeList: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    currentScoreTypeId: {
+      type: [String, Number],
+      default: ''
+    }
+  },
+  watch: {
+    currentScoreTypeId: {
+      handler(val) {
+        this.scoreTypeId = val;
+      },
+    }
+  },
   data() {
     return {
-      scoreTypeName: "",
+      scoreTypeId: "",
       userName: ""
     };
   },
   methods: {
     reset() {
-      this.scoreTypeName = "";
+      this.scoreTypeId = "";
       this.userName = "";
       let result = {
-        scoreTypeName: this.scoreTypeName,
+        scoreTypeId: this.scoreTypeId,
         userName: this.userName,
       };
       this.$emit("search", result);
     },
     search() {
       let result = {
-        scoreTypeName: this.scoreTypeName,
+        scoreTypeId: this.scoreTypeId,
         userName: this.userName,
       };
 

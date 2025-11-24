@@ -1,6 +1,6 @@
 module.exports = {
-    title: "宣海人才考核平台",
-    tick: "宣海人才考核平台",
+    title: "宣武神内人才考核",
+    tick: "宣武神内人才考核",
     flag: "sn-score", // 当前项目的标识，用来标记路由
     flagToken: 'sn-score-token',
     showQRCode: false, // 显示下载APP的二维码

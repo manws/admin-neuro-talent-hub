@@ -13,13 +13,13 @@ export default {
             align: 'center',
             value: ''
         },
-         {
+        {
             fieldName: '考核人员',
             fieldCode: 'userName',
             align: 'center',
             value: ''
         },
-         {
+        {
             fieldName: '总评分',
             fieldCode: 'tsAll',
             align: 'center',
@@ -37,24 +37,24 @@ export default {
             align: 'center',
             value: ''
         },
-      {
-        fieldName: '科研工作评分',
-        fieldCode: 'ts03',
-        align: 'center',
-        value: ''
-      },
-      {
-        fieldName: '人才培养评分',
-        fieldCode: 'ts04',
-        align: 'center',
-        value: ''
-      },
-      {
-        fieldName: '公益工作评分',
-        fieldCode: 'ts05',
-        align: 'center',
-        value: ''
-      },
+        {
+            fieldName: '科研工作评分',
+            fieldCode: 'ts03',
+            align: 'center',
+            value: ''
+        },
+        {
+            fieldName: '人才培养评分',
+            fieldCode: 'ts04',
+            align: 'center',
+            value: ''
+        },
+        {
+            fieldName: '公益工作评分',
+            fieldCode: 'ts05',
+            align: 'center',
+            value: ''
+        },
         {
             fieldName: '更新人员',
             fieldCode: 'updateBy',
@@ -160,20 +160,34 @@ export default {
     },
 
     // 分页获取用户评分
-    page: async (param = {}) => {
-        try {
-            const res = await store.dispatch("handlePost", {
-                url: `/api/v2/UserScore/page`,
-                param
-            });
-            const scoreTypeList = get(res, 'scoreTypeList', []) || [];
-            return { scoreTypeList };
-        } catch (error) {
-            console.log('error', error);
-            Message.error(error && typeof error === 'string' ? error : '请求失败');
-        }
-        return { scoreTypeList: [] };
-    },
+  page: async (param = {}) => {
+    try {
+      const res = await store.dispatch("handlePost", {
+        url: `/api/v2/UserScore/page`,
+        param
+      });
+      const scoreTypeList = get(res, 'scoreTypeList', []) || [];
+      return { scoreTypeList };
+    } catch (error) {
+      console.log('error', error);
+      Message.error(error && typeof error === 'string' ? error : '请求失败');
+    }
+    return { scoreTypeList: [] };
+  },
+
+  activeScoreTypeList: async () => {
+    try {
+      const res = await store.dispatch("handlePost", {
+        url: `api/v2/ScoreType/activeScoreTypeList`,
+      });
+      const scoreTypeList = get(res, 'scoreTypeList', []) || [];
+      return scoreTypeList;
+    } catch (error) {
+      console.log('error', error);
+      Message.error(error && typeof error === 'string' ? error : '请求失败');
+    }
+    return [];
+  },
 
     // 获取单个用户所有评分
     singleAll: async (userId, scoreTypeId, param = {}) => {
@@ -182,16 +196,28 @@ export default {
                 url: `/api/v2/UserScore/singleAll/${userId}/${scoreTypeId}`,
                 param
             });
-            const userInfo = get(res, 'userInfo', {}) || {};
-            const scoreDetails = get(res, 'scoreDetails', []) || [];
-            const totalScore = get(res, 'totalScore', 0) || 0;
-            const averageScore = get(res, 'averageScore', 0) || 0;
-            return { userInfo, scoreDetails, totalScore, averageScore };
+            const level2Data = get(res, 'level2Data', {}) || {};
+            return { level2Data };
         } catch (error) {
             console.log('error', error);
             Message.error(error && typeof error === 'string' ? error : '请求失败');
         }
-        return { userInfo: {}, scoreDetails: [], totalScore: 0, averageScore: 0 };
+        return { level2Data: {} };
+    },
+    level0List: async () => {
+        try {
+            const res = await store.dispatch("handlePost", {
+                url: `/api/v2/LevelStruct/level0List`,
+                param: {}
+            });
+            const level0StructList = get(res, 'level0StructList', []);
+            return { level0StructList };
+        } catch (error) {
+            console.log('error', error);
+            Message.error(error && typeof error === 'string' ? error : '请求失败');
+        }
+        return { level0StructList: [] };
+
     },
 
     // 获取单个用户所有L1级别评分
@@ -228,5 +254,25 @@ export default {
             Message.error(error && typeof error === 'string' ? error : '请求失败');
         }
         return { level2ScoreList: [], scoreTypeInfo: {}, statistics: {} };
+    },
+
+  scoreExport: async (param) => {
+    try {
+      const {data, fileName} = await store.dispatch("handleDownload", {
+        url: `/api/v2/UserScore/exportData`, param
+      });
+      const link = document.createElement("a")
+      const blob = new Blob([data], { type: "application/vnd.ms-excel" })
+      link.style.display = "none"
+      link.href = URL.createObjectURL(blob)
+      link.setAttribute("download", fileName)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      Message.success('导出成功');
+    } catch (error) {
+      console.log(error, 'error 23456')
+      Message.error(error && typeof error === 'string' ? error : '请求失败');
     }
+  }
 }

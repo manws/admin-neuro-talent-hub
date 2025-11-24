@@ -28,12 +28,12 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
+          <el-table-column prop="operation" label="操作" align="center" width="100" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
                 <div class="btn-text" :class="[scope.row.state === 1 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 2)">发布</div>
                 <div class="btn-text" :class="[scope.row.state === 2 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 10)">结束</div>
-                <div class="btn-text" :class="[scope.row.state !== 99 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 99)">删除</div>
+<!--                <div class="btn-text" :class="[scope.row.state !== 99 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 99)">删除</div>-->
               </div>
             </template>
           </el-table-column>

@@ -1,12 +1,12 @@
 <template>
   <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
-      <div v-if="collapse" key="collapse" class="sidebar-logo-link" @click="toProject">
+      <div v-if="collapse" key="collapse" class="sidebar-logo-link">
         <img v-if="logo" :src="icon" class="sidebar-logo"/>
       </div>
       <div v-else key="expand" class="flex-style-base sidebar-logo-link">
         <img v-if="logo" :src="logo" class="sidebar-logo"/>
-        <h4 style="font-size: 16px;color: #FFFFFF;margin-left: 12px;">神经内科人才考核</h4>
+        <h4 style="font-size: 16px;color: #FFFFFF;margin-left: 12px;">宣武神内人才考核</h4>
       </div>
     </transition>
   </div>

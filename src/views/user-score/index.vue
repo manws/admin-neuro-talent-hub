@@ -2,7 +2,7 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp :scoreTypeList="scoreTypeList" @search="handleSearch"></search-comp>
+        <search-comp :scoreTypeList="activeScoreTypeList" :currentScoreTypeId="scoreTypeId" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
           <div class="btn-add" @click="handleExport" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
@@ -21,8 +21,27 @@
                   element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading"
                   @sort-change="handleSortChange">
           <el-table-column label="序号" type="index" align="center" width="50" fixed></el-table-column>
+          <el-table-column prop="operation" label="操作" align="center" width="140" fixed="right">
+            <template slot-scope="scope">
+              <div class="flex-style-base" style="justify-content: space-around">
+                <div class="btn-text" @click="openDrawer(scope.row)">查看详情</div>
+              </div>
+            </template>
+          </el-table-column>
           <template v-for="(column, index) in columns">
             <el-table-column v-if="column.fieldCode === 'scoreTypeName'" sortable="custom" :prop="column.fieldCode" :label="column.fieldName" align="center"
+                             :minWidth="column.minWidth" fixed >
+              <template slot-scope="scope">
+                <span>{{ scope.row[column.fieldCode] }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column v-else-if="column.fieldCode === 'userName'" sortable="custom" :prop="column.fieldCode" :label="column.fieldName" align="center"
+                             :minWidth="column.minWidth" fixed >
+              <template slot-scope="scope">
+                <span>{{ scope.row[column.fieldCode] }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column v-else-if="column.fieldCode === 'tsAll'" sortable="custom" :prop="column.fieldCode" :label="column.fieldName" align="center"
                              :minWidth="column.minWidth" fixed >
               <template slot-scope="scope">
                 <span>{{ scope.row[column.fieldCode] }}</span>
@@ -44,6 +63,7 @@
       </div>
     </div>
     <OpDialog ref="opDlg" :scoreTypeList="scoreTypeList" @refresh="initData"></OpDialog>
+    <DetailDrawer ref="drawer"></DetailDrawer>
   </ComponentsContainer>
 </template>
 
@@ -56,6 +76,7 @@ import OpDialog from "./OpDialog";
 import SearchComp from "./SearchComp";
 
 import service from "./service.js";
+import DetailDrawer from "./DetailDrawer.vue";
 export default {
   name: "UserScore",
   components: {
@@ -64,6 +85,7 @@ export default {
     TableColumnSelect,
     SearchComp,
     OpDialog,
+    DetailDrawer
   },
   data() {
     return {
@@ -76,12 +98,14 @@ export default {
         orderTypeId: 0,
         orderFieldCode: "",
         userName: "",
-        scoreTypeName: "",
+        scoreTypeId: "",
       },
       head: service.head,
       page: {},
       disPlayField: [], // 显示的列
       scoreTypeList: [],
+      scoreTypeId: '',
+      activeScoreTypeList: []
     };
   },
   mounted() {
@@ -112,9 +136,20 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      const { scoreTypeList } = await service.page(this.param);
-      this.scoreTypeList = scoreTypeList
-      this.tableData = scoreTypeList;
+      this.activeScoreTypeList = await service.activeScoreTypeList()
+      const existScopeType = !this.activeScoreTypeList || this.activeScoreTypeList.length !== 0
+      if (existScopeType) {
+        this.param.scoreTypeId = this.activeScoreTypeList[0].id
+        const { scoreTypeList } = await service.page(this.param);
+        this.scoreTypeList = scoreTypeList
+        this.tableData = scoreTypeList;
+        this.$nextTick(() => {
+          this.scoreTypeId = this.activeScoreTypeList[0].id
+        })
+      } else {
+        this.scoreTypeList = [];
+        this.tableData = [];
+      }
       this.listLoading = false;
     },
     async refreshData() {
@@ -147,10 +182,17 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(async () => {
-        // await this.service.scoreExport();
+        const param = {
+          "scoreTypeId": this.param.scoreTypeId,
+          "userName": this.param.userName
+        }
+        await service.scoreExport(param);
       }).catch(() => {
         this.$message.info("已取消操作");
       });
+    },
+    openDrawer(row) {
+      this.$refs.drawer.openDrawer(row)
     },
     handleEdit(row) {
       this.$refs.opDlg.show(row);

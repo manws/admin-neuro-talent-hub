@@ -8,7 +8,7 @@
     <div class="login-body">
       <div class="flex-style-base company-bg" style="position: relative;align-items: flex-start">
         <div class="flex-style-base" style="z-index: 100;position: relative;">
-          <div class="system-text">宣海人才考核平台</div>
+          <div class="system-text">宣武神内人才考核</div>
         </div>
         <img :src="companyBg" class="preview-img"/>
       </div>

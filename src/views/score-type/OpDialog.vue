@@ -68,6 +68,7 @@
       <div class="search-comp-label">结束时间</div>
       <el-date-picker v-model="endOn" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
                       class="input-style date-picker-disabled"
+                      :picker-options="pickerOptions"
                       type="datetime" placeholder="请选择结束日期">
       </el-date-picker>
     </div>
@@ -109,6 +110,14 @@ export default {
       isNew: true,
       endOn: "",
       id: "",
+      pickerOptions: {
+        disabledDate: (time) => {
+          // 禁用今天之前的日期（包含今天）
+          return time.getTime() < Date.now() - 8.64e7;
+          // 如果只需要禁用今天之前的日期（不包含今天），使用:
+          // return time.getTime() < Date.now();
+        }
+      },
     };
   },
   methods: {

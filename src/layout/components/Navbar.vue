@@ -5,8 +5,7 @@
 
     <breadcrumb v-if="$store.getters.settings.showBreadcrumb" id="breadcrumb-container" class="breadcrumb-container" />
 
-    <h4 class="title"></h4>
-<!--    {{ $store.getters.settings.title }}-->
+    <h4 class="title">{{ $store.getters.settings.title }}</h4>
 
     <div class="right-menu flex-style-base">
       <template v-if="device !== 'mobile'">
