@@ -7,7 +7,7 @@
       <div v-if="!bodyLoading" class="content">
         <!-- 医疗工作评分详情展示 -->
         <div v-for="(level0Item, level0Index) in level0List" :key="level0Index" class="level0-section">
-          <div class="flex-style-base level0-title">
+          <div class="flex-style-base level0-title" style="width: 100%;">
             <img v-if="level0Item.level0Id == 1" style="width: 16px;height: 16px;margin-right: 6px;"
                  src="../../assets/images/icon-medical-work.png"/>
             <img v-if="level0Item.level0Id == 2" style="width: 16px;height: 16px;margin-right: 6px;"
@@ -19,10 +19,15 @@
             <img v-if="level0Item.level0Id == 5" style="width: 16px;height: 16px;margin-right: 6px;"
                  src="../../assets/images/research-public-welfare-assessment.png"/>
             <div>{{ level0Item.level0Name }}</div>
+
+            <div style="flex-grow: 1;"></div>
+
+            <el-tooltip class="item" effect="dark" :content="!showContent ? '医疗评估详情' : '医疗评估分数'" placement="top-start">
+              <i class="el-icon-sort" :style="{rotate: showContent ? '0deg' : '90deg'}" style="color: #00549C; cursor: pointer;font-size: 18px;" @click="() => {showContent = !showContent}"></i>
+            </el-tooltip>
           </div>
-
-
-          <div v-for="(level1Item, level1Index) in level0Item.level1List" :key="level1Index"
+          <MedicalWorkComp v-if="level0Item.level0Id == 1 && showContent" :contentShow="contentShow"></MedicalWorkComp>
+          <div v-for="(level1Item, level1Index) in level0Item.level1List" v-if="!(level0Item.level0Id == 1 && showContent)" :key="level1Index"
                class="flex-style-column level1-section">
             <div class="flex-style-base level1-title">
               <div>{{ level1Item.level1Name }}</div>
@@ -67,16 +72,19 @@
 
 import service from "./service.js";
 import store from "@/store"
+import MedicalWorkComp from "@/views/user-score/MedicalWorkComp.vue";
 
 export default {
-  components: {},
+  components: {MedicalWorkComp},
   data() {
     return {
       showDrawer: false,
       bodyLoading: false,
       loadingFail: false,
       row: {},
-      level0List: []
+      level0List: [],
+      contentShow: [],
+      showContent: false,
     };
   },
   computed: {
@@ -108,6 +116,8 @@ export default {
       this.loadingFail = false;
       const {level0StructList} = await service.level0List();
       const {level2Data} = await service.singleAll(this.row.userId, this.row.scoreTypeId)
+      const { contentShow } = await service.contentShow(this.row.scoreTypeId, 1)
+      this.contentShow = contentShow || []
       const level0List = []
       Object.keys(level2Data).forEach(key => {
         const item = level0StructList.find(level0 => level0.id == key)

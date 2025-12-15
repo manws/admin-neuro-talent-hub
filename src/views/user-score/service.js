@@ -274,5 +274,22 @@ export default {
       console.log(error, 'error 23456')
       Message.error(error && typeof error === 'string' ? error : '请求失败');
     }
+  },
+
+  // 获取单个用户所有L2级别评分
+  contentShow: async (scoreTypeId, level0Id, param = {}) => {
+    try {
+      const userId = store.getters.user.userId
+      const res = await store.dispatch("handlePost", {
+        url: `/api/v2/Content/contentShow/${userId}/${scoreTypeId}/${level0Id}`,
+        param
+      });
+      console.log('res', res);
+      return res;
+    } catch (error) {
+      console.log('error', error);
+      Message.error(error && typeof error === 'string' ? error : '请求失败');
+    }
+    return {level2ScoreList: [], scoreTypeInfo: {}, statistics: {}};
   }
 }
