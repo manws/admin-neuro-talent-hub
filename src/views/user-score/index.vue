@@ -2,7 +2,7 @@
   <ComponentsContainer>
     <div class="flex-style-column content-container">
       <div class="flex-style-base header-container">
-        <search-comp :scoreTypeList="activeScoreTypeList" :currentScoreTypeId="scoreTypeId" @search="handleSearch"></search-comp>
+        <search-comp :scoreTypeList="activeSTList" :currentScoreTypeId="scoreTypeId" @search="handleSearch"></search-comp>
         <div class="flex-style-base">
           <div class="btn-add" @click="handleExport" style="margin: 0 6px">
             <i class="el-icon-circle-plus"></i>
@@ -105,7 +105,7 @@ export default {
       disPlayField: [], // 显示的列
       scoreTypeList: [],
       scoreTypeId: '',
-      activeScoreTypeList: []
+      activeSTList: []
     };
   },
   mounted() {
@@ -136,15 +136,15 @@ export default {
   methods: {
     async initData() {
       this.listLoading = true;
-      this.activeScoreTypeList = await service.activeScoreTypeList()
-      const existScopeType = !this.activeScoreTypeList || this.activeScoreTypeList.length !== 0
+      this.activeSTList = await service.activeSTList()
+      const existScopeType = !this.activeSTList || this.activeSTList.length !== 0
       if (existScopeType) {
-        this.param.scoreTypeId = this.activeScoreTypeList[0].id
+        this.param.scoreTypeId = this.activeSTList[0].id
         const { scoreTypeList } = await service.page(this.param);
         this.scoreTypeList = scoreTypeList
         this.tableData = scoreTypeList;
         this.$nextTick(() => {
-          this.scoreTypeId = this.activeScoreTypeList[0].id
+          this.scoreTypeId = this.activeSTList[0].id
         })
       } else {
         this.scoreTypeList = [];

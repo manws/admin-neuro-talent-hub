@@ -109,10 +109,9 @@ export default {
       scoreNameIcon: require('@/assets/images/score-name-icon.svg'),
       stateMap: {
         '-1': '',
-        '0': '待编辑',
-        '1': '待发布',
-        '2': '考核中',
-        '10': '考核结束',
+        '0': '编辑',
+        '1': '考核中',
+        '2': '已结束',
         '99': '已删除'
       },
 

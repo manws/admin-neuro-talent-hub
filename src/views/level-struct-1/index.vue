@@ -121,14 +121,14 @@ export default {
       const {level0StructList} = await service.level0List();
       this.level0StructList = level0StructList
       this.level0Id = level0StructList[0].id
-      const {level1StructList} = await service.addLevel2(this.level0Id);
+      const {level1StructList} = await service.level1List(this.level0Id);
       this.tableData = level1StructList;
       this.listLoading = false;
     },
     async refreshData() {
       this.listLoading = true;
       const { level1StructList } =
-        await service.addLevel2(this.level0Id);
+        await service.level1List(this.level0Id);
       this.tableData = level1StructList;
       this.listLoading = false;
     },

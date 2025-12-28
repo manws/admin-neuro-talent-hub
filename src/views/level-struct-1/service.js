@@ -50,6 +50,21 @@ export default {
         return { level0StructList: [] };
 
     },
+  level1List: async (level0Id) => {
+    try {
+      const res = await store.dispatch("handlePost", {
+        url: `/api/v2/LevelStruct/level1List/${level0Id}`,
+        param: {}
+      });
+      const level1StructList = get(res, 'level1StructList', []);
+      return { level1StructList };
+    } catch (error) {
+      console.log('error', error);
+      Message.error(error && typeof error === 'string' ? error : '请求失败');
+    }
+    return { level1StructList: [] };
+
+  },
   level2List: async (level0Id) => {
     try {
       const res = await store.dispatch("handlePost", {

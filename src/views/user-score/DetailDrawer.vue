@@ -1,59 +1,79 @@
 <template>
-  <el-drawer :title="row.scoreTypeName" :custom-class="'draw-container'" class="drawer-container"
+  <el-drawer :title="`${row.scoreTypeName}【${row.userName}】`" :custom-class="'draw-container'" class="drawer-container"
              :visible.sync="showDrawer" :size="drawerWidth" direction="rtl" :destroy-on-close="true" wrapperClosable
              :before-close="handleClose" @close="close">
     <div class="flex-style-column drawer-body" v-loading="bodyLoading">
       <div class="line"></div>
       <div v-if="!bodyLoading" class="content">
         <!-- 医疗工作评分详情展示 -->
-        <div v-for="(level0Item, level0Index) in level0List" :key="level0Index" class="level0-section">
-          <div class="flex-style-base level0-title" style="width: 100%;">
-            <img v-if="level0Item.level0Id == 1" style="width: 16px;height: 16px;margin-right: 6px;"
-                 src="../../assets/images/icon-medical-work.png"/>
-            <img v-if="level0Item.level0Id == 2" style="width: 16px;height: 16px;margin-right: 6px;"
-                 src="../../assets/images/teaching-work-assessment.png"/>
-            <img v-if="level0Item.level0Id == 3" style="width: 16px;height: 16px;margin-right: 6px;"
-                 src="../../assets/images/research-work-assessment.png"/>
-            <img v-if="level0Item.level0Id == 4" style="width: 16px;height: 16px;margin-right: 6px;"
-                 src="../../assets/images/talent-training-assessment.png"/>
-            <img v-if="level0Item.level0Id == 5" style="width: 16px;height: 16px;margin-right: 6px;"
-                 src="../../assets/images/research-public-welfare-assessment.png"/>
-            <div>{{ level0Item.level0Name }}</div>
-
-            <div style="flex-grow: 1;"></div>
-
-            <el-tooltip class="item" effect="dark" :content="!showContent ? '医疗评估详情' : '医疗评估分数'" placement="top-start">
-              <i class="el-icon-sort" :style="{rotate: showContent ? '0deg' : '90deg'}" style="color: #00549C; cursor: pointer;font-size: 18px;" @click="() => {showContent = !showContent}"></i>
-            </el-tooltip>
-          </div>
-          <MedicalWorkComp v-if="level0Item.level0Id == 1 && showContent" :contentShow="contentShow"></MedicalWorkComp>
-          <div v-for="(level1Item, level1Index) in level0Item.level1List" v-if="!(level0Item.level0Id == 1 && showContent)" :key="level1Index"
-               class="flex-style-column level1-section">
-            <div class="flex-style-base level1-title">
-              <div>{{ level1Item.level1Name }}</div>
-              <div style="width: 0;flex-grow: 1;background-color: #EBEBEB;height: 1px;margin-left: 8px;"></div>
+        <!--        @tab-click="handleClick"-->
+        <el-tabs v-model="activeLevel">
+          <el-tab-pane v-for="(level0Item, level0Index) in userScore" :key="level0Index" :name="`tab-${level0Item.level0Id}`">
+            <div slot="label" class="flex-style-base" :class="[activeLevel == `tab-${level0Item.level0Id}` ? 'level0-title-active' : 'level0-title']" style="width: 100%;">
+              <img v-if="level0Item.level0Id == 1 && activeLevel == 'tab-1'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/icon-medical-work.png"/>
+              <img v-if="level0Item.level0Id == 2 && activeLevel == 'tab-2'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/teaching-work-assessment.png"/>
+              <img v-if="level0Item.level0Id == 3 && activeLevel == 'tab-3'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/research-work-assessment.png"/>
+              <img v-if="level0Item.level0Id == 4 && activeLevel == 'tab-4'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/talent-training-assessment.png"/>
+              <img v-if="level0Item.level0Id == 5 && activeLevel == 'tab-5'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/research-public-welfare-assessment.png"/>
+              <img v-if="level0Item.level0Id == 6 && activeLevel == 'tab-6'"
+                   style="width: 16px;height: 16px;margin-right: 6px;"
+                   src="../../assets/images/my_self_-assessment.png"/>
+              <div>{{ level0Item.level0Name }}</div>
             </div>
-            <div v-for="(level2Item, level2Index) in level1Item.level2List" :key="level2Index">
-              <div class="flex-style-base level2-header">
-                <span class="level2-name">{{ level2Item.name }}</span>
-                <span class="level2-score">{{ level2Item.score }}分</span>
-              </div>
-              <!-- 图片展示区域 -->
-              <div v-if="level2Item.urlList && level2Item.urlList.length > 0" class="image-gallery">
-                <el-image
-                  v-for="(imageUrl, imageIndex) in level2Item.urlList"
-                  :key="imageIndex"
-                  class="gallery-image"
-                  :src="imageUrl"
-                  :preview-src-list="level2Item.urlList"
-                  fit="cover"
-                  lazy>
-                </el-image>
+            <div class="flex-style-base" style="justify-content: flex-end">
+              <el-tooltip v-if="level0Item.level0Id != 6 && activeLevel == `tab-${level0Item.level0Id}`" class="item" effect="dark"
+                          :content="!showObj[`showContent${level0Item.level0Id}`] ? `${level0Item.level0Name}详情` : `${level0Item.level0Name}分数`"
+                          placement="top-start">
+                <i class="el-icon-sort"
+                   :style="{rotate: showObj[`showContent${level0Item.level0Id}`] ? '0deg' : '90deg'}"
+                   style="color: #00549C; cursor: pointer;font-size: 18px;"
+                   @click="() => {showObj[`showContent${level0Item.level0Id}`] = !showObj[`showContent${level0Item.level0Id}`]}"></i>
+              </el-tooltip>
+            </div>
+
+            <div style="height: 100%;overflow:auto;">
+              <MedicalWorkComp v-if="showObj[`showContent${level0Item.level0Id}`]"
+                               :contentShow="contentShow[`contentShow${level0Item.level0Id}`]"></MedicalWorkComp>
+
+              <div v-for="(level1Item, level1Index) in level0Item.level1ScoreList"
+                   v-if="!showObj[`showContent${level0Item.level0Id}`]" :key="level1Index"
+                   class="flex-style-column level1-section">
+                <div class="flex-style-base level1-title">
+                  <div>{{ level1Item.level1Name }}</div>
+                  <div style="width: 0;flex-grow: 1;background-color: #EBEBEB;height: 1px;margin-left: 8px;"></div>
+                </div>
+                <div v-for="(level2Item, level2Index) in level1Item.level2ScoreList" :key="level2Index">
+                  <div class="flex-style-base level2-header">
+                    <span class="level2-name">{{ level2Item.level2Name }}</span>
+                    <span class="level2-score">{{ level2Item.score }}分</span>
+                  </div>
+                  <!-- 图片展示区域 -->
+                  <div v-if="level2Item.urlList && level2Item.urlList.length > 0" class="image-gallery">
+                    <el-image
+                      v-for="(imageUrl, imageIndex) in level2Item.urlList"
+                      :key="imageIndex"
+                      class="gallery-image"
+                      :src="imageUrl"
+                      :preview-src-list="level2Item.urlList"
+                      fit="cover"
+                      lazy>
+                    </el-image>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
+          </el-tab-pane>
+        </el-tabs>
         <div class="flex-style-base" style="height: 100px; justify-content: center; color: #cdcdcd">
           <span style="height: 1px; background-color: #cdcdcd; width: 30px"></span>
           <span style="margin: 0 16px">到底了</span>
@@ -61,11 +81,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <el-empty v-if="loadingFail" class="empty" description="内容为空">
-      <div slot="image"></div>
-      <div class="btn-add btn-retry" @click="initData()">立即重试</div>
-    </el-empty> -->
   </el-drawer>
 </template>
 <script>
@@ -83,8 +98,23 @@ export default {
       loadingFail: false,
       row: {},
       level0List: [],
-      contentShow: [],
+      activeLevel: 'tab-1',
+      contentShow: {
+        contentShow1: [],
+        contentShow2: [],
+        contentShow3: [],
+        contentShow4: [],
+        contentShow5: []
+      },
       showContent: false,
+      showObj: {
+        showContent1: false,
+        showContent2: false,
+        showContent3: false,
+        showContent4: false,
+        showContent5: false
+      },
+      userScore: {}
     };
   },
   computed: {
@@ -103,6 +133,7 @@ export default {
       this.showDrawer = false;
       this.bodyLoading = false;
       this.loadingFail = false;
+      this.activeLevel = 'tab-1';
 
     },
     async openDrawer(row, isEdit) {
@@ -115,24 +146,46 @@ export default {
       this.bodyLoading = true;
       this.loadingFail = false;
       const {level0StructList} = await service.level0List();
-      const {level2Data} = await service.singleAll(this.row.userId, this.row.scoreTypeId)
-      const { contentShow } = await service.contentShow(this.row.scoreTypeId, 1)
+      const {userScore} = await service.singleAll(this.row.userId, this.row.scoreTypeId)
+      this.userScore = userScore
+      const {contentShow} = await service.contentShow(this.row.scoreTypeId, 1)
       this.contentShow = contentShow || []
       const level0List = []
-      Object.keys(level2Data).forEach(key => {
+      Object.keys(userScore).forEach(key => {
         const item = level0StructList.find(level0 => level0.id == key)
         if (item) {
           level0List.push({
             "level0Name": item.level0Name,
             "level0Id": item.id,
-            "level1List": level2Data[key]
+            "level1List": userScore[key]
           })
         }
       })
       this.level0List = level0List
       this.bodyLoading = false
+      service.contentShow(this.row.scoreTypeId, 1)
+        .then(res => {
+          this.contentShow.contentShow1 = res.contentShow || []
+        })
+      service.contentShow(this.row.scoreTypeId, 2)
+        .then(res => {
+          this.contentShow.contentShow2 = res.contentShow || []
+        })
+      service.contentShow(this.row.scoreTypeId, 3)
+        .then(res => {
+          this.contentShow.contentShow3 = res.contentShow || []
+        })
+      service.contentShow(this.row.scoreTypeId, 4)
+        .then(res => {
+          this.contentShow.contentShow4 = res.contentShow || []
+        })
+      service.contentShow(this.row.scoreTypeId, 5)
+        .then(res => {
+          this.contentShow.contentShow5 = res.contentShow || []
+        })
     },
-    close() {},
+    close() {
+    },
     handleClose(done) {
       done();
     },
@@ -163,14 +216,12 @@ export default {
 .drawer-body {
   width: 100%;
   height: 100%;
-  overflow: auto;
 }
 
 .content {
   height: 0;
   width: 100%;
   flex-grow: 1;
-  overflow: auto;
   padding-left: 16px;
   padding-right: 32px;
 }
@@ -180,12 +231,22 @@ export default {
   margin-bottom: 32px;
 }
 
-.level0-title {
-  font-size: 18px;
+.level0-title-active {
+  font-size: 16px;
   font-weight: bold;
+  color: $jbPrimaryColor;
+  margin-top: 8px;
+  height: 50px;
+  padding-bottom: 20px;
+}
+
+.level0-title {
+  font-size: 16px;
   color: #333;
   margin-top: 8px;
-  height: 40px;
+  height: 50px;
+  font-weight: normal;
+  padding-bottom: 20px;
 }
 
 .level1-section {

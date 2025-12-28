@@ -2,12 +2,12 @@
   <div class="medical-work-content">
     <template v-for="(item, index) in contentShow">
       <div style="margin-bottom: 16px;">
-        <div class="level1-title">{{item.fieldName}}</div>
-        <div v-if="item.subContentList.length == 0" class="content-text1">{{item.result}}</div>
+        <div class="level1-title">{{item.fieldCode}}.{{ item.fieldName }}</div>
+        <div v-if="item.subContentList.length == 0" class="content-text1">{{ item.resultShow }}</div>
         <div v-else class="sub-content">
           <template v-for="(subItem, subIndex) in item.subContentList">
-            <div class="level1-title">{{subItem.fieldName}}</div>
-            <div class="content-text2">{{subItem.result}}</div>
+            <div class="level1-title">{{subItem.fieldCode}}.{{ subItem.fieldName }}</div>
+            <div class="content-text2">{{ subItem.resultShow }}</div>
           </template>
 
         </div>

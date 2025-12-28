@@ -175,10 +175,10 @@ export default {
     return { scoreTypeList: [] };
   },
 
-  activeScoreTypeList: async () => {
+  activeSTList: async () => {
     try {
       const res = await store.dispatch("handlePost", {
-        url: `api/v2/ScoreType/activeScoreTypeList`,
+        url: `api/v2/ScoreType/activeSTList`,
       });
       const scoreTypeList = get(res, 'scoreTypeList', []) || [];
       return scoreTypeList;
@@ -193,16 +193,16 @@ export default {
     singleAll: async (userId, scoreTypeId, param = {}) => {
         try {
             const res = await store.dispatch("handlePost", {
-                url: `/api/v2/UserScore/singleAll/${userId}/${scoreTypeId}`,
+                url: `/api/v2/UserScoreDetail/detail/${userId}/${scoreTypeId}`,
                 param
             });
-            const level2Data = get(res, 'level2Data', {}) || {};
-            return { level2Data };
+            const userScore = get(res, 'userScore', {}) || {};
+            return { userScore };
         } catch (error) {
             console.log('error', error);
             Message.error(error && typeof error === 'string' ? error : '请求失败');
         }
-        return { level2Data: {} };
+        return { userScore: {} };
     },
     level0List: async () => {
         try {
@@ -281,7 +281,7 @@ export default {
     try {
       const userId = store.getters.user.userId
       const res = await store.dispatch("handlePost", {
-        url: `/api/v2/Content/contentShow/${userId}/${scoreTypeId}/${level0Id}`,
+        url: `/api/v2/ContentResult/contentShow/${userId}/${scoreTypeId}/${level0Id}`,
         param
       });
       console.log('res', res);

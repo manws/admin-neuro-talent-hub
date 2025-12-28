@@ -20,19 +20,19 @@
         <el-table ref="table" :data="tableData" style="width: 100%" height="calc(100%)" v-loading="listLoading"
           element-loading-text="拼命加载中..." element-loading-spinner="el-icon-loading" @sort-change="handleSortChange">
           <el-table-column label="序号" type="index" align="center" width="50" fixed></el-table-column>
-          <el-table-column prop="operation" label="记录操作" align="center" width="160" fixed="right">
+          <el-table-column prop="operation" label="模版操作" align="center" width="160" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" :class="[scope.row.state < 2 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 1)">编辑考核</div>
-                <div class="btn-text" :class="[scope.row.state > 0 ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 2)">查看考核</div>
+                <div class="btn-text" @click="openUploadDrawer(scope.row)">上传</div>
+                <div class="btn-text" :class="[scope.row.stdscoreTemplate ? '' : 'disabled-btn']" @click="openDrawer(scope.row, 2)">查看</div>
               </div>
             </template>
           </el-table-column>
           <el-table-column prop="operation" label="操作" align="center" width="100" fixed="right">
             <template slot-scope="scope">
               <div class="flex-style-base" style="justify-content: space-around">
-                <div class="btn-text" :class="[scope.row.state === 1 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 2)">发布</div>
-                <div class="btn-text" :class="[scope.row.state === 2 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 10)">结束</div>
+                <div class="btn-text" :class="[scope.row.state === 0 ? '' : 'disabled-btn']" @click="handlePublish(scope.row)">发布</div>
+                <div class="btn-text" :class="[scope.row.state === 0 || scope.row.state === 1 ? '' : 'disabled-btn']" @click="handleEnd(scope.row)">结束</div>
 <!--                <div class="btn-text" :class="[scope.row.state !== 99 ? '' : 'disabled-btn']" @click="handleOp(scope.row, 99)">删除</div>-->
               </div>
             </template>
@@ -51,13 +51,20 @@
             <template slot-scope="scope">
               <span v-if="column.fieldCode === 'enabled'"
                 :style="{ color: scope.row.enabled === 0 ? 'red' : 'green' }">{{ scope.row.enabled === 0 ? "未激活" : "已激活" }}</span>
-              <span v-else-if="column.fieldCode.indexOf('level') === 0">{{ scope.row[column.fieldCode]
-                  === 1 ? "考核" : "不考核" }}</span>
+
+              <div  v-else-if="column.fieldCode.indexOf('level') === 0" class="flex-style-base" style="justify-content: center;">
+                <div v-if="scope.row[column.fieldCode]" class="dot-4" style="opacity: 0.7;"></div>
+                <div v-else class="dot-5" style="opacity: 0.7;"></div>
+
+                <span v-if="scope.row[column.fieldCode]" style="margin-left: 6px;">已上传</span>
+                <span v-else style="margin-left: 6px;">未上传</span>
+              </div>
+
+
               <div v-else-if="column.fieldCode === 'state'" class="flex-style-base" style="justify-content: center;">
                 <div v-if="scope.row.state === 0" class="dot-1"></div>
                 <div v-if="scope.row.state === 1" class="dot-2"></div>
                 <div v-if="scope.row.state === 2" class="dot-3"></div>
-                <div v-if="scope.row.state === 10" class="dot-4"></div>
                 <div v-if="scope.row.state === 99" class="dot-5"></div>
                 <span style="margin-left: 6px;">{{ stateMap[scope.row.state] }}</span>
               </div>
@@ -75,6 +82,7 @@
     </div>
     <OpDialog ref="opDlg" @refresh="initData" :stateMap="stateMap"></OpDialog>
     <EditDrawer ref="drawer" @refresh="initData"></EditDrawer>
+    <UploadDrawer ref="uploadDrawer" @refresh="initData"></UploadDrawer>
   </ComponentsContainer>
 </template>
 
@@ -88,9 +96,11 @@ import SearchComp from "./SearchComp";
 import EditDrawer from "./EditDrawer";
 
 import service from "./service.js";
+import UploadDrawer from "@/views/score-type/UploadDrawer.vue";
 export default {
   name: "User",
   components: {
+    UploadDrawer,
     ComponentsContainer,
     CommonPagination,
     TableColumnSelect,
@@ -116,10 +126,9 @@ export default {
       page: {},
       disPlayField: [], // 显示的列
       stateMap: {
-        0: '待编辑',
-        1: '待发布',
-        2: '考核中',
-        10: '考核结束',
+        0: '编辑',
+        1: '考核中',
+        2: '已结束',
         99: '已删除'
       }
     };
@@ -157,6 +166,9 @@ export default {
       this.tableData = scoreTypeList;
       this.page = page;
       this.listLoading = false;
+    },
+    openUploadDrawer(row) {
+      this.$refs.uploadDrawer.openDrawer(row);
     },
     async openDrawer(row, index) {
       if (row.state === 0 && index === 2) {
@@ -205,6 +217,34 @@ export default {
         type: "warning",
       }).then(async () => {
         await this.service.userExport();
+      }).catch(() => {
+        this.$message.info("已取消操作");
+      });
+    },
+    handlePublish(row) {
+      this.$confirm(`确定发布${row.scoreTypeName}，一旦发布，将无法编辑考核内容，是否确定发布？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const updateSuccess = await service.publish(row.id);
+        if (updateSuccess) {
+          await this.refreshData();
+        }
+      }).catch(() => {
+        this.$message.info("已取消操作");
+      });
+    },
+    handleEnd(row) {
+      this.$confirm(`确定结束${row.scoreTypeName}，一旦结束，评估人员将无法继续填写考核内容，是否确定结束？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const updateSuccess = await service.end(row.id);
+        if (updateSuccess) {
+          await this.refreshData();
+        }
       }).catch(() => {
         this.$message.info("已取消操作");
       });

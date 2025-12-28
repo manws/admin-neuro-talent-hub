@@ -5,61 +5,61 @@
       <div class="title-flag"></div>
       <span class="title">考核名称</span>
     </div>
-    <div class="flex-style-column fit-inut">
+    <div class="flex-style-base fit-inut" style="margin-top: 16px;">
       <div class="search-comp-label">考核名称</div>
       <el-input v-model="scoreTypeName" class="input-style" placeholder="请输入"/>
     </div>
 
-    <div style="margin-top: 24px;">
-      <div class="flex-style-base">
-        <div class="title-flag"></div>
-        <span class="title">考核内容</span>
-      </div>
+<!--    <div style="margin-top: 24px;">-->
+<!--      <div class="flex-style-base">-->
+<!--        <div class="title-flag"></div>-->
+<!--        <span class="title">考核内容</span>-->
+<!--      </div>-->
 
-      <div class="flex-style-base">
-        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
-          <div class="search-comp-label">医疗工作</div>
-          <el-radio-group v-model="level1" style="flex: 1">
-            <el-radio :label="1">考核</el-radio>
-            <el-radio :label="0">不考核</el-radio>
-          </el-radio-group>
-        </div>
+<!--      <div class="flex-style-base">-->
+<!--        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">-->
+<!--          <div class="search-comp-label">医疗工作</div>-->
+<!--          <el-radio-group v-model="level1" style="flex: 1">-->
+<!--            <el-radio :label="1">考核</el-radio>-->
+<!--            <el-radio :label="0">不考核</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </div>-->
 
-        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
-          <div class="search-comp-label">教学工作</div>
-          <el-radio-group v-model="level2" style="flex: 1">
-            <el-radio :label="1">考核</el-radio>
-            <el-radio :label="0">不考核</el-radio>
-          </el-radio-group>
-        </div>
-      </div>
+<!--        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">-->
+<!--          <div class="search-comp-label">教学工作</div>-->
+<!--          <el-radio-group v-model="level2" style="flex: 1">-->
+<!--            <el-radio :label="1">考核</el-radio>-->
+<!--            <el-radio :label="0">不考核</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="flex-style-base">
-        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
-          <div class="search-comp-label">科研工作</div>
-          <el-radio-group v-model="level3" style="flex: 1">
-            <el-radio :label="1">考核</el-radio>
-            <el-radio :label="0">不考核</el-radio>
-          </el-radio-group>
-        </div>
+<!--      <div class="flex-style-base">-->
+<!--        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">-->
+<!--          <div class="search-comp-label">科研工作</div>-->
+<!--          <el-radio-group v-model="level3" style="flex: 1">-->
+<!--            <el-radio :label="1">考核</el-radio>-->
+<!--            <el-radio :label="0">不考核</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </div>-->
 
-        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">
-          <div class="search-comp-label">人才培养</div>
-          <el-radio-group v-model="level4" style="flex: 1">
-            <el-radio :label="1">考核</el-radio>
-            <el-radio :label="0">不考核</el-radio>
-          </el-radio-group>
-        </div>
-      </div>
+<!--        <div class="flex-style-column fit-inut" style="margin-top: 16px;flex-grow: 1;">-->
+<!--          <div class="search-comp-label">人才培养</div>-->
+<!--          <el-radio-group v-model="level4" style="flex: 1">-->
+<!--            <el-radio :label="1">考核</el-radio>-->
+<!--            <el-radio :label="0">不考核</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="flex-style-column fit-inut" style="margin-top: 16px">
-        <div class="search-comp-label">公益工作</div>
-        <el-radio-group v-model="level5" style="flex: 1">
-          <el-radio :label="1">考核</el-radio>
-          <el-radio :label="0">不考核</el-radio>
-        </el-radio-group>
-      </div>
-    </div>
+<!--      <div class="flex-style-column fit-inut" style="margin-top: 16px">-->
+<!--        <div class="search-comp-label">公益工作</div>-->
+<!--        <el-radio-group v-model="level5" style="flex: 1">-->
+<!--          <el-radio :label="1">考核</el-radio>-->
+<!--          <el-radio :label="0">不考核</el-radio>-->
+<!--        </el-radio-group>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="flex-style-base" style="margin-top: 24px;">
       <div class="title-flag"></div>
       <span class="title">考核时间</span>
@@ -155,13 +155,13 @@ export default {
         return;
       }
 
-      if (this.level1 === 0 && this.level2 === 0 && this.level3 === 0 && this.level4 === 0 && this.level5 === 0) {
-        this.$message({
-          message: "请至少选择一个考核内容",
-          type: "error",
-        });
-        return;
-      }
+      // if (this.level1 === 0 && this.level2 === 0 && this.level3 === 0 && this.level4 === 0 && this.level5 === 0) {
+      //   this.$message({
+      //     message: "请至少选择一个考核内容",
+      //     type: "error",
+      //   });
+      //   return;
+      // }
 
       if (!this.endOn) {
         this.$message({
@@ -173,11 +173,11 @@ export default {
 
       let param = {
         scoreTypeName: this.scoreTypeName,
-        level1: this.level1,
-        level2: this.level2,
-        level3: this.level3,
-        level4: this.level4,
-        level5: this.level5,
+        // level1: this.level1,
+        // level2: this.level2,
+        // level3: this.level3,
+        // level4: this.level4,
+        // level5: this.level5,
         endOn: this.endOn
       };
       this.loading = true;
@@ -189,7 +189,7 @@ export default {
       }
     },
     async addData(param) {
-      const id = await service.insert(param);
+      const id = await service.create(param);
       if (!!id) {
         this.$message({
           message: "新增成功",
