@@ -136,6 +136,19 @@ export const constantRoutes = [
             },
         ],
     },
+  {
+    path: "/opinion",
+    component: Layout,
+    hidden: false,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/opinion/index"),
+        name: "Opinion",
+        meta: { title: "意见管理", icon: "form", noCache: true },
+      },
+    ],
+  },
     {
         path: "/user",
         component: Layout,
