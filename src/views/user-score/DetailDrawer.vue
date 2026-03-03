@@ -148,8 +148,6 @@ export default {
       const {level0StructList} = await service.level0List();
       const {userScore} = await service.singleAll(this.row.userId, this.row.scoreTypeId)
       this.userScore = userScore
-      const {contentShow} = await service.contentShow(this.row.scoreTypeId, 1)
-      this.contentShow = contentShow || []
       const level0List = []
       Object.keys(userScore).forEach(key => {
         const item = level0StructList.find(level0 => level0.id == key)
@@ -163,23 +161,23 @@ export default {
       })
       this.level0List = level0List
       this.bodyLoading = false
-      service.contentShow(this.row.scoreTypeId, 1)
+      service.contentShow(this.row.userId, this.row.scoreTypeId, 1)
         .then(res => {
           this.contentShow.contentShow1 = res.contentShow || []
         })
-      service.contentShow(this.row.scoreTypeId, 2)
+      service.contentShow(this.row.userId, this.row.scoreTypeId, 2)
         .then(res => {
           this.contentShow.contentShow2 = res.contentShow || []
         })
-      service.contentShow(this.row.scoreTypeId, 3)
+      service.contentShow(this.row.userId, this.row.scoreTypeId, 3)
         .then(res => {
           this.contentShow.contentShow3 = res.contentShow || []
         })
-      service.contentShow(this.row.scoreTypeId, 4)
+      service.contentShow(this.row.userId, this.row.scoreTypeId, 4)
         .then(res => {
           this.contentShow.contentShow4 = res.contentShow || []
         })
-      service.contentShow(this.row.scoreTypeId, 5)
+      service.contentShow(this.row.userId, this.row.scoreTypeId, 5)
         .then(res => {
           this.contentShow.contentShow5 = res.contentShow || []
         })

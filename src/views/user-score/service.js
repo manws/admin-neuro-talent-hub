@@ -277,15 +277,14 @@ export default {
   },
 
   // 获取单个用户所有L2级别评分
-  contentShow: async (scoreTypeId, level0Id, param = {}) => {
+  contentShow: async (userId, scoreTypeId, level0Id, param = {}) => {
     try {
-      const userId = store.getters.user.userId
       const res = await store.dispatch("handlePost", {
         url: `/api/v2/ContentResult/contentShow/${userId}/${scoreTypeId}/${level0Id}`,
         param
       });
       console.log('res', res);
-      return res;
+      return res || {};
     } catch (error) {
       console.log('error', error);
       Message.error(error && typeof error === 'string' ? error : '请求失败');

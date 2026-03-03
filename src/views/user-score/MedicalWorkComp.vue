@@ -13,6 +13,9 @@
         </div>
       </div>
     </template>
+    <div class="flex-style-base" style="justify-content: center;" v-if="!contentShow || contentShow.length === 0">
+      内容为空！
+    </div>
   </div>
 </template>
 
